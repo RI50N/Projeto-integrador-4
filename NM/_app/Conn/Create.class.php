@@ -2,7 +2,7 @@
 /**
  * <b>Create.class:</b>
  * Classe responsável por cadastros genéticos no banco de dados!
- * testestestestestestescxvzddbhxf
+ * testestestestestestes
  * @copyright (c) 2016, Adriano Boese
  */
 
