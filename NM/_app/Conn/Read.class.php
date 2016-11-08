@@ -24,6 +24,7 @@ class Read extends Conn {
      * @param STRING $Tabela = Nome da tabela
      * @param STRING $Termos = WHERE | ORDER | LIMIT :limit | OFFSET :offset
      * @param STRING $ParseString = link={$link}&link2={$link2}
+     * @example ExeRead('tabela_tal','WHERE id = :id_do_campo','id_do_campo = {$Valor}') 
      */
     public function ExeRead($Tabela, $Termos = null, $ParseString = null) {
         if (!empty($ParseString)):
@@ -51,6 +52,11 @@ class Read extends Conn {
         return $this->Read->rowCount();
     }
 
+     /**
+     * <b>Full Read:</b> Executa leitura de dados via query que deve ser montada manualmente para possibilitar
+     * seleção de multiplas tabelas em uma única query!
+     * @param STRING $Query = Query Select Syntax
+     */
     public function FullRead($Query, $ParseString = null) {
         $this->Select = (string) $Query;
         if (!empty($ParseString)):
@@ -60,11 +66,9 @@ class Read extends Conn {
     }
 
     /**
-     * <b>Full Read:</b> Executa leitura de dados via query que deve ser montada manualmente para possibilitar
-     * seleção de multiplas tabelas em uma única query!
-     * @param STRING $Query = Query Select Syntax
-     * @param STRING $ParseString = link={$link}&link2={$link2}
-     */
+     * <b>setPlaces:</b> Altera os valores passados anteriormente no ExeRead 
+     * para efetuar outra leitura sem a nescecidade de instanciar outro objeto.
+    */
     public function setPlaces($ParseString) {
         parse_str($ParseString, $this->Places);
         $this->Execute();

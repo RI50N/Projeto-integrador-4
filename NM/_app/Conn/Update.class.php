@@ -27,7 +27,7 @@ class Update extends Conn {
      * @param STRING $Tabela = Nome da tabela
      * @param ARRAY $Dados = [ NomeDaColuna ] => Valor ( Atribuição )
      * @param STRING $Termos = WHERE coluna = :link AND.. OR..
-     * @param STRING $ParseString = link={$link}&link2={$link2}
+     * @param STRING $ParseString = link={$valor}&link2={$valor2}
      */
     public function ExeUpdate($Tabela, array $Dados, $Termos, $ParseString) {
         $this->Tabela = (string) $Tabela;

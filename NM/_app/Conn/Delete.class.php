@@ -19,6 +19,15 @@ class Delete extends Conn {
     /** @var PDO */
     private $Conn;
 
+     /**
+     * <b>ExeDelete:</b> Deletas registro do banco de dados.
+     * Basta informar o nome da tabela e os termos que são as condições do WHERE 
+     * 
+     * @param STRING $Tabela = Informe o nome da tabela no banco!
+     * @param ARRAY $Termos = Informe as condições do WHERE ( Nome Da Coluna => :Nome do campo na parseString ).
+     * @param ARRAY $ParseString = Informe os valores dos campos na clausula WHERE ( Nome Do Campo => :Valor ).
+     * @example ExeDelete('tabela_tal','WHERE id = :id_do_campo','id_do_campo = {$Valor}') 
+     */
     public function ExeDelete($Tabela, $Termos, $ParseString) {
         $this->Tabela = (string) $Tabela;
         $this->Termos = (string) $Termos;
@@ -28,20 +37,36 @@ class Delete extends Conn {
         $this->Execute();
     }
 
+    /**
+     * <b>getResult:</b> Retorna resultado
+    */
     public function getResult() {
         return $this->Result;
     }
 
+    /**
+     * <b>getRowCount:</b> Retorna numero de registros deletados
+     * @return INT $Var = Quantidade de linhas alteradas
+    */
     public function getRowCount() {
         return $this->Delete->rowCount();
     }
 
+    /**
+     * <b>setPlaces:</b> Altera os valores passados anteriormente no ExeDelete 
+     * para efetuar outra operação sem a nescecidade de instanciar outro objeto.
+    */
     public function setPlaces($ParseString) {
         parse_str($ParseString, $this->Places);
         $this->getSyntax();
         $this->Execute();
     }
 
+    /**
+     * ****************************************
+     * *********** PRIVATE METHODS ************
+     * ****************************************
+     */
     //Obtém o PDO e Prepara a query
     private function Connect() {
         $this->Conn = parent::getConn();
