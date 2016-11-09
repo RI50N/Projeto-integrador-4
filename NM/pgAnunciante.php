@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="pt-br">
 	<meta charset="utf-8">
@@ -469,5 +468,3 @@
 
 </body>
 </html>
-
->>>>>>> origin/master
