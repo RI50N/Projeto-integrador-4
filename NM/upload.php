@@ -71,7 +71,7 @@ if (move_uploaded_file($_FILES['arquivo']['tmp_name'], $_UP['pasta'] . $nome_fin
     
 }
 
-include './download.html';
+include './pgAnunciante.php';
 
 //echo "<script type ='text/javascript'> alert('Sua imagem foi enviada com sucesso.'); window.location.href='./download.html';</script>";
 
