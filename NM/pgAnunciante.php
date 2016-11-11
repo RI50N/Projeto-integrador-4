@@ -182,50 +182,33 @@
                                         <p contenteditable="true">Status: Feeling Blue</p>
                                         <form action="Post.php" method="post" name="form1"> 
                                             <div class="form-group col-sm-6">
-                                                <label for="Endereço">Endereço*</label>
-                                                <input type=""  class="form-control" id="" name="" placeholder="rua de tal,n°00"> 
+                                                <label for="Horario">Horário de funcionamento*</label>
+                                                <input type="Horario"  class="form-control" id="horario" name="horario" placeholder="19h 30min"> 
 
                                             </div>
                                             <div class="form-group col-sm-6">
-                                                <label for="Cep">Cep*</label>
-                                                <input type="Cep"  class="form-control" id="" name="" placeholder="00000-000"> 
+                                                <label for="Data">Data*</label>
+                                                <input type="Data"  class="form-control" id="Data" name="Data" placeholder="01/05/2016"> 
 
                                             </div>
                                             <div class="form-group col-sm-6">
-                                                <label for="Bairro">Bairro*</label>
-                                                <input type="Bairro"  class="form-control" id="" name="" placeholder="Cafundo do Judas"> 
+                                                <label for="Endereço">Endereço essa dado é puxado*</label>
+                                                <input type="Endereco"  class="form-control" id="endereco" name="endereco" placeholder="rua de tal,n°00"> 
 
                                             </div>
+
                                             <div class="form-group col-sm-6">
-                                                <label for="Nomer">Nome do Resposavel*</label>
-                                                <input type="text" class="form-control" id="" name="">
+
+                                                <form enctype="multipart/form-data" action="upload.php" method="Post" >
+
+                                                    <label for="Banner">Imagem ou flyer*</label>
+                                                    <input type="file" name="arquivo" required />
+                                                    <br/>
+                                                    <Button type="submit" name="enviar" class="btn btn-primary" > Enviar </Button>
+                                                </form>
 
                                             </div>
-                                            <div class="form-group col-sm-6">
-                                                <label for="sobrenomer">Sobrenome do Resposavel*</label>
-                                                <input type="text" class="form-control" id="" name="">
 
-                                            </div>
-                                            <div class="form-group col-sm-6">
-                                                <label for="E-mail">E-mail*</label>
-                                                <input type="email"  class="form-control" id="" name="" placeholder="email@exemplo.com"> 
-                                            </div>
-                                            <div class="form-group col-sm-6">
-                                                <label for="telef">Telefone de contato*</label>
-                                                <input type="telef"  class="form-control" id="" name="" placeholder="(00)0000-0000"> 
-                                            </div>
-                                            <div class="form-group col-sm-6">
-                                                <label for="celu">Celular/ What's App*</label>
-                                                <input type="telef"  class="form-control" id="" name="" placeholder="(00)0000-0000"> 
-                                            </div>
-                                            <div class="form-group col-sm-6">
-                                                <label for="senha">Nova Senha*</label>
-                                                <input type="password" name="" id="" class="form-control" placeholder="Senha" required="" name="">
-                                            </div>
-                                            <div class="form-group col-sm-6">
-                                                <label for="senha">Confirmar Senha*</label>
-                                                <input type="password" name="" id="" class="form-control" placeholder="" required="" name="">
-                                            </div>
                                             <br>
                                             <label>Digite sua mensagem*: </label>
                                             <br/>
@@ -363,9 +346,9 @@
                 <p class="pull-right"><a href="#">Night Mess</a></p>
                 <p>© 2016 Hurry Up!, Inc. · <a href="#">Privacy</a> · <a href="#">Terms</a></p>
             </footer>
-    <?php
-else:
-    echo 'não esta logado';
-endif;
-?>
+            <?php
+        else:
+            echo 'não esta logado';
+        endif;
+        ?>
     </body>
