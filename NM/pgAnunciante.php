@@ -262,16 +262,22 @@
                                                 <div style="width:auto">
 
 
-    <?php
-    $result = mysql_query("SELECT  * FROM post");
+                                                    <?php
+                                                    $result = mysql_query("SELECT  * FROM post");
 
-    while ($rg = mysql_fetch_array($result)) {
-        printf("<br> comentario na data %s", $rg[1]);
-        printf("<br>  %s", $rg[2]);
-        printf("<br>___________***______***__________");
-        printf("<br>________________________________");
-    }
-    ?>
+                                                    while ($rg = mysql_fetch_array($result)) {
+                                                        ?>
+                                                        <div class="well">                                          
+                                                            <?php
+                                                            printf("<br> comentario na data %s", $rg[1]);
+                                                            printf("<br>  %s", $rg[2]);
+                                                            printf("<br>___________***______***__________");
+                                                            printf("<br>________________________________");
+                                                            ?>
+                                                        </div>
+                                                        <?php
+                                                    }
+                                                    ?>
 
                                                 </div>
                                             </div>
