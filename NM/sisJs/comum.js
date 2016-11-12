@@ -1,0 +1,3 @@
+function logout() {
+    $('#formSair').submit();
+}
