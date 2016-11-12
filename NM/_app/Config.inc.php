@@ -3,10 +3,10 @@
 session_start();
 
 // CONFIGRAÇÕES DO SITE ####################
-define('HOST', 'localhost');
-define('USER', 'root');
-define('PASS', '');
-define('DBSA', 'nmdb');
+define('HOST', 'mysql.hostinger.com.br');
+define('USER', 'u711421559_r150n');
+define('PASS', 'portius755rep');
+define('DBSA', 'u711421559_nmdb');
 
 // AUTO LOAD DE CLASSES ####################
 function __autoload($Class) {
