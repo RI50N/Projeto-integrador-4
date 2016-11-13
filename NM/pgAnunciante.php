@@ -1,26 +1,5 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-    <meta charset="utf-8">
-    <title>Night Mess </title>
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-
-    <link rel="icon" class="img-circle" alt="Cinque Terre" width="304" height="236" href="img/bussola.png">
-</head>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<style>
-    /* Set black background color, white text and some padding */
-    footer {
-        background-color: #555;
-        color: white;
-        padding: 15px;
-    }
-</style>
-</head>
-<body class="container">
-    <!DOCTYPE html>
-<html lang="pt-br">
     <head>              
 
         <meta charset="utf-8">
@@ -29,7 +8,7 @@
         <link rel="icon" class="img-circle" href="img/bussola.png">
         <script src="js/jquery-3.1.1.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
-        <script src="sisJs/pgAnunciante.js"></script>
+        <script src="sisJs/index.js"></script>
         <script src="sisJs/comum.js"></script>
         <style>
             #brand-image{
@@ -42,10 +21,9 @@
             div.scroll {
                 background-color: #00FFFF;
                 width: 500px auto;
-                height: 400px;
+                height: 600px;
                 overflow: scroll;
             }
-
         </style>
 
         <?php
@@ -55,26 +33,23 @@
                 case 'alterarStatus':
                     $anunciante = new Anunciante();
                     $anunciante->setId($_POST['idAnunciante']);
-
                     if ($_POST['status'] == 1):
                         $anunciante->ativa();
                     elseif ($_POST['status'] == 2):
                         $anunciante->desativa();
                     endif;
                     break;
-                case 'logout':
-                    unset($_SESSION['sistema']);
-                    $direcionar = 'index.php';
-                    header("Location: {$direcionar}");
+                     case 'logout':
+                     unset($_SESSION['sistema']);
+                     $direcionar = 'index.php';
+                     header("Location: {$direcionar}");
                     break;
-
             endswitch;
         }
         /** @var Sistema */
         if (isset($_SESSION['sistema'])):
             $sistema = unserialize($_SESSION['sistema']);
         endif;
-
         if (isset($sistema) && $sistema->getSession()):
             ?>
             <nav class="navbar  navbar-inverse ">
@@ -200,10 +175,53 @@
                     <div class="col-sm-7">
 
                         <div class="row">
-                            <div class="col-sm-12">
-                                <div class="panel panel-default text-left">
+                            <div class="col-sm-12">          
+
+                                <div class="panel panel-default text-left">             
+
                                     <div class="panel-body">
                                         <p contenteditable="true">Status: Feeling Blue</p>
+                                        <form action="Post.php" method="post" name="form1"> 
+                                            <div class="form-group col-sm-6">
+                                                <label for="Horario">Horário de funcionamento*</label>
+                                                <input type="Horario"  class="form-control" id="horario" name="horario" placeholder="19h 30min"> 
+
+                                            </div>
+                                            <div class="form-group col-sm-6">
+                                                <label for="Data">Data*</label>
+                                                <input type="Data"  class="form-control" id="Data" name="Data" placeholder="01/05/2016"> 
+
+                                            </div>
+                                            <div class="form-group col-sm-6">
+                                                <label for="Endereço">Endereço essa dado é puxado*</label>
+                                                <input type="Endereco"  class="form-control" id="endereco" name="endereco" placeholder="rua de tal,n°00"> 
+
+                                            </div>
+
+                                            <div class="form-group col-sm-6">
+
+                                                <form enctype="multipart/form-data" action="upload.php" method="Post" >
+
+                                                    <label for="Banner">Imagem ou flyer*</label>
+                                                    <input type="file" name="arquivo" required />
+                                                    <br/>
+                                                    <Button type="submit" name="enviar" class="btn btn-primary" > Enviar </Button>
+                                                </form>
+
+                                            </div>
+
+                                            <br>
+                                            <label>Digite sua mensagem*: </label>
+                                            <br/>
+                                            <textarea type="text" cols="26" rows="5" name="mensagem" id="mensagem"></textarea>
+                                            <br/>
+                                            <br/>
+
+
+                                            <center><button type="submit" class="btn btn-primary"><b>Publicar</b></button>
+                                                <button type="reset" name="limpar"><b>Limpar</b></button></center>
+
+                                        </form>
                                         <button type="button" class="btn btn-default btn-sm">
                                             <span class="glyphicon glyphicon-thumbs-up"></span> Like
                                         </button>
@@ -222,7 +240,31 @@
                             <div class="col-sm-9">
                                 <div class="scroll">
                                     <div class="well">
-                                        <p>Just Forgot that I had to mention something about someone to someone about how I forgot something, but now I forgot it. Ahh, forget it! Or wait. I remember.... no I don't.</p>
+                                        <p>Exemplo</p>
+                                        <div id="usuario"><p>Veja os comentarios:</p><div style="height:auto; width:auto; overflow:auto; background-color: 
+                                                                                          #FFFFCC; text-align: justify;padding: 2px; margin:5px ">
+                                                <div style="width:auto">
+
+
+                                                    <?php
+                                                    $result = mysql_query("SELECT  * FROM post");
+                                                    while ($rg = mysql_fetch_array($result)) {
+                                                        ?>
+                                                        <div class="well">                                          
+                                                            <?php
+                                                            printf("<br> comentario na data %s", $rg[1]);
+                                                            printf("<br>  %s", $rg[2]);
+                                                            printf("<br>___________***______***__________");
+                                                            printf("<br>________________________________");
+                                                            ?>
+                                                        </div>
+                                                        <?php
+                                                    }
+                                                    ?>
+
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="well">
                                         <p>Just Forgot that I had to mention something about someone to someone about how I forgot something, but now I forgot it. Ahh, forget it! Or wait. I remember.... no I don't.</p>
@@ -310,3 +352,5 @@
         endif;
         ?>
     </body>
+    Contact GitHub API Training Shop Blog About
+    © 2016 GitHub, Inc. Terms Privacy Security Status Help
