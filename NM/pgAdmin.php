@@ -236,8 +236,8 @@
                             </thead>
                             <tbody>
                                 <?php
-                                $anunciantes = new Anunciante();
-                                $anunciantes->buscaDadosAnunciante();
+                                $listaAnunciantes = new Anunciante();
+                                $anunciantes = $listaAnunciantes->buscaDadosAnunciante();
                                 for ($i = 0; $i < count($anunciantes); $i++):
                                     ?>
                                     <tr class="info">

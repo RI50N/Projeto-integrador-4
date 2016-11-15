@@ -38,6 +38,7 @@ class Read extends Conn {
         endif;
 
         $this->Select = "SELECT {$campos} FROM {$Tabela} {$Termos}";
+        
         $this->Execute();
     }
 
