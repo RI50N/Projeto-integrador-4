@@ -236,9 +236,8 @@
                             </thead>
                             <tbody>
                                 <?php
-                                $listarAnunciantes = new Read();
-                                $listarAnunciantes->ExeRead('nm_anunciante INNER JOIN nm_user ON id = id_anunciante ');
-                                $anunciantes = $listarAnunciantes->getResult();
+                                $anunciantes = new Anunciante();
+                                $anunciantes->buscaDadosAnunciante();
                                 for ($i = 0; $i < count($anunciantes); $i++):
                                     ?>
                                     <tr class="info">

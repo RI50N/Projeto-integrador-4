@@ -1,11 +1,11 @@
 <?php
+
 /**
  * <b>Read.class:</b>
  * Classe responsável por leituras genéticas no banco de dados!
  *
  * @copyright (c) 2016, Adriano Boese
  */
-
 class Read extends Conn {
 
     private $Select;
@@ -26,12 +26,18 @@ class Read extends Conn {
      * @param STRING $ParseString = link={$link}&link2={$link2}
      * @example ExeRead('tabela_tal','WHERE id = :id_do_campo','id_do_campo = {$Valor}') 
      */
-    public function ExeRead($Tabela, $Termos = null, $ParseString = null) {
+    public function ExeRead($Tabela, $Termos = null, $ParseString = null,$camposDesejados=NULL) {
         if (!empty($ParseString)):
             parse_str($ParseString, $this->Places);
         endif;
+        
+        if (!empty($camposDesejados)):
+            $campos = implode(',', $camposDesejados);
+        else:
+            $campos = "*";
+        endif;
 
-        $this->Select = "SELECT * FROM {$Tabela} {$Termos}";
+        $this->Select = "SELECT {$campos} FROM {$Tabela} {$Termos}";
         $this->Execute();
     }
 
@@ -52,7 +58,7 @@ class Read extends Conn {
         return $this->Read->rowCount();
     }
 
-     /**
+    /**
      * <b>Full Read:</b> Executa leitura de dados via query que deve ser montada manualmente para possibilitar
      * seleção de multiplas tabelas em uma única query!
      * @param STRING $Query = Query Select Syntax
@@ -68,7 +74,7 @@ class Read extends Conn {
     /**
      * <b>setPlaces:</b> Altera os valores passados anteriormente no ExeRead 
      * para efetuar outra leitura sem a nescecidade de instanciar outro objeto.
-    */
+     */
     public function setPlaces($ParseString) {
         parse_str($ParseString, $this->Places);
         $this->Execute();

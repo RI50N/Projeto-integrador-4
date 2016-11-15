@@ -12,6 +12,8 @@ class Anunciante {
     private $nomeFantasia;
     private $CNPJ;
     private $endereco;
+    private $estado;
+    private $cidade;
     private $CEP;
     private $bairro;
     private $nomeResponsavel;
@@ -26,7 +28,7 @@ class Anunciante {
         $this->idUsuario = $id;
     }
 
-     /**
+    /**
      * <b>populaDados:</b> Popula os dados da classe a partir de um array associativo
      * @param array $dadosAnunciante = dados do anunciante
      * Obs.: O campo senha só será preenchido quando mandado pela interface.
@@ -41,7 +43,9 @@ class Anunciante {
         $this->nomeFantasia = $dadosAnunciante['nomeFantasia'];
         $this->nomeResponsavel = $dadosAnunciante['nomeResponsavel'];
         $this->sobrenomeResponsavel = $dadosAnunciante['sobrenomeResponsavel'];
-        if(isset($dadosAnunciante['senha'])):
+        $this->estado = $dadosAnunciante['estado'];
+        $this->cidade = $dadosAnunciante['cidade'];
+        if (isset($dadosAnunciante['senha'])):
             $this->senha = $dadosAnunciante['senha'];
         endif;
         $this->telefoneContato = $dadosAnunciante['telefoneContato'];
@@ -50,28 +54,30 @@ class Anunciante {
 
     public function cadastraDadosAnunciante() {
         $Cadastra = new Create;
-        $Dados = ['nomeEmpresa' => $this->nomeEmpresa,
-            'nomeFantasia' => $this->nomeFantasia,
-            'CNPJ' => $this->CNPJ,
-            'endereco' => $this->endereco,
-            'CEP' => $this->CEP,
-            'bairro' => $this->bairro,
-            'nomeResponsavel' => $this->nomeResponsavel,
-            'sobrenomeResponsavel' => $this->sobrenomeResponsavel,
-            'telefoneContato' => $this->telefoneContato,
-            'whatsapp' => $this->whatsapp,
-        ];
 
-        $Cadastra->ExeCreate('nm_anunciante', $Dados);
-        $this->idUsuario = $Cadastra->getResult();
+        $DadosLogin = ['email' => $this->email,
+            'senha' => md5($this->senha),
+            'tipo' => 0,
+            'ativo' => 0];
+        $Cadastra->ExeCreate('nm_user', $DadosLogin);
+        $this->setId($Cadastra->getResult());
+
         if ($this->idUsuario):
-            $DadosLogin = ['email' => $this->email,
-                'senha' => $this->senha,
-                'id_anunciante' => $this->idUsuario,
-                'ativo' => 0
+            $Dados = ['nomeEmpresa' => $this->nomeEmpresa,
+                'nomeFantasia' => $this->nomeFantasia,
+                'CNPJ' => $this->CNPJ,
+                'endereco' => $this->endereco,
+                'cidade' => $this->cidade,
+                'estado' => $this->estado,
+                'CEP' => $this->CEP,
+                'bairro' => $this->bairro,
+                'nomeResponsavel' => $this->nomeResponsavel,
+                'sobrenomeResponsavel' => $this->sobrenomeResponsavel,
+                'telefoneContato' => $this->telefoneContato,
+                'whatsapp' => $this->whatsapp,
             ];
 
-            $Cadastra->ExeCreate('nm_user', $DadosLogin);
+            $Cadastra->ExeCreate('nm_anunciante', $Dados);
             return "Pré-cadastro realizado com sucesso, em breve entraremos em contato.";
         else:
             return "Ops, ocorreu alguma falha no seu pré-cadastro.";
@@ -92,14 +98,14 @@ class Anunciante {
             'whatsapp' => $this->whatsapp,
         ];
 
-        $update->ExeUpdate('nm_anunciante', $Dados, "WHERE id = :id","id={$this->idUsuario}");
+        $update->ExeUpdate('nm_anunciante', $Dados, "WHERE id = :id", "id={$this->idUsuario}");
         $this->idUsuario = $update->getResult();
         if ($this->idUsuario):
             $DadosLogin = ['email' => $this->email,
                 'senha' => $this->senha,
             ];
 
-            $update->ExeUpdate('nm_user', $DadosLogin, "WHERE id_anunciante = :id","id={$this->idUsuario}");
+            $update->ExeUpdate('nm_user', $DadosLogin, "WHERE id_anunciante = :id", "id={$this->idUsuario}");
             return "Update realizado com sucesso.";
         else:
             return "Ops, ocorreu alguma falha.";
@@ -113,8 +119,8 @@ class Anunciante {
             $update->ExeUpdate('nm_user', $DadosLogin, "WHERE id_anunciante = {$this->idUsuario}");
         endif;
     }
-    
-     public function desativa() {
+
+    public function desativa() {
         $update = new Update();
         if ($this->idUsuario):
             $DadosLogin = ['ativo' => 0];
@@ -122,9 +128,13 @@ class Anunciante {
         endif;
     }
 
-    public function buscaDadosLogin($id) {
+    public function buscaDadosAnunciante() {
         $listarAnunciantes = new Read();
-        $listarAnunciantes->ExeRead('nm_anunciante', 'WHERE id =' . $id);
+        if (isset($this->id)):
+            $listarAnunciantes->ExeRead('nm_anunciante INNER JOIN nm_user ON nm_user.id = nm_anunciante.id_usuario', ["id", "email", "", "", "", "", "", "", "", "", "", ""], 'WHERE nm_user.id = :id_usuario', "id_usuario={$this->id}");
+        else:
+            $listarAnunciantes->ExeRead('nm_anunciante INNER JOIN nm_user ON nm_user.id = nm_anunciante.id_usuario ', ["", "", "", "", "", "", "", "", "", "", "", "", "", ""]);
+        endif;
         $anunciantes = $listarAnunciantes->getResult();
         return $anunciantes;
     }

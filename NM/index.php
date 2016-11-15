@@ -182,17 +182,19 @@
                                             <h4 class="modal-title">Login</h4>
                                         </div>
                                         <div class="modal-body">
-                                            <div class="container-fluid">
-                                                <form class="form-signin modal-header" action="#" method="post">
+                                            <div class="container-fluid ">
+                                                <form class="form-signin modal-header">
                                                     <input type="hidden" name="acao" value="login">
+                                                    
                                                     <label for="E-mail">E-mail*</label>
-                                                    <input type="email"  class="form-control" id="email" name="login" placeholder="email@exemplo.com"> 
+                                                    <input type="email"  class="form-control required" id="email" name="login" placeholder="email@exemplo.com" required="true"> 
                                                     <br>
                                                     <label for="senha">Senha*</label>
-                                                    <input type="password" id="inputPassword" class="form-control" placeholder="Senha" name="senha" required="">
-                                                    <br>												
-                                                    <button type="submit" class="btn btn-primary">ENTRAR</button>
+                                                    <input type="password" id="inputPassword" class="form-control" placeholder="Senha" name="senha" required="true">
+                                                    <br>
+                                                    <button  type="submit" class="btn btn-primary" id="formLogin">ENTRAR</button>
                                                 </form>
+                                                
                                             </div>
                                         </div>
                                     </div>

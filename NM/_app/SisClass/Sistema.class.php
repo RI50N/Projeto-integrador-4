@@ -19,7 +19,7 @@ class Sistema {
      */
     public function efetuarLogin($login, $senha) {
         $read = new Read();
-        $read->ExeRead('nm_user', "WHERE email = :email AND senha = :senha AND ativo =1","email={$login}&senha={$senha}");
+        $read->ExeRead('nm_user', "WHERE email = :email AND senha = md5(:senha) AND ativo =1","email={$login}&senha={$senha}");
         $usuario = $read->getResult();
          var_dump($usuario);
         if ($usuario):
