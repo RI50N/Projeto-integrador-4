@@ -63,7 +63,9 @@ class Anunciante {
         $this->setId($Cadastra->getResult());
 
         if ($this->idUsuario):
-            $Dados = ['nomeEmpresa' => $this->nomeEmpresa,
+            $Dados = [
+                'id_user' => $this->idUsuario, 
+                'nomeEmpresa' => $this->nomeEmpresa,
                 'nomeFantasia' => $this->nomeFantasia,
                 'CNPJ' => $this->CNPJ,
                 'endereco' => $this->endereco,
@@ -133,10 +135,10 @@ class Anunciante {
         if (isset($this->id)):
             $listarAnunciantes->ExeRead('nm_anunciante INNER JOIN nm_user ON nm_user.id = nm_anunciante.id_usuario', ["id", "email", "", "", "", "", "", "", "", "", "", ""], 'WHERE nm_user.id = :id_usuario', "id_usuario={$this->id}");
         else:
-            $listarAnunciantes->ExeRead('nm_anunciante INNER JOIN nm_user ON nm_user.id = nm_anunciante.id_usuario ', ["", "", "", "", "", "", "", "", "", "", "", "", "", ""]);
+            $listarAnunciantes->ExeRead('nm_anunciante INNER JOIN nm_user ON nm_user.id = nm_anunciante.id_user ');
         endif;
-        $anunciantes = $listarAnunciantes->getResult();
-        return $anunciantes;
+        var_dump($listarAnunciantes);
+        return $listarAnunciantes->getResult();
     }
 
 }
