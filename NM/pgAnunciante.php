@@ -146,7 +146,9 @@
                                                             <input type="password" name="senha" id="senha" class="form-control" placeholder="Senha" required="" name="senha">
                                                         </div>
                                                         <br>
-                                                        <button type="submit" class="btn btn-primary" href="" >Cadastrar-se</button>
+                                                        <div class="form-group col-sm-8">
+                                                            <button type="submit" class="btn btn-primary" href="" >Cadastrar-se</button>
+                                                        </div>
                                                     </form> 
                                                 </div>
                                             </div>
@@ -155,7 +157,7 @@
                                 </div>
                             </ul>
                             <ul class="nav navbar-nav navbar-right">
-                                <li class="active"><a href="#">Home</a></li>                                
+                                <li><a href="#">Home</a></li>                                
                                 <li><a href="#">Rolando Hoje</a></li> 
                             </ul>
                         </div>
@@ -168,6 +170,54 @@
                     <div class="row">
                         <div class="col-sm-3 well">
                             <div class="well">
+                                <!-- some CSS styling changes and overrides -->
+                                <style>
+                                    .kv-avatar .file-preview-frame,.kv-avatar .file-preview-frame:hover {
+                                        margin: 0;
+                                        padding: 0;
+                                        border: none;
+                                        box-shadow: none;
+                                        text-align: center;
+                                    }
+                                    .kv-avatar .file-input {
+                                        display: table-cell;
+                                        max-width: 220px;
+                                    }
+                                </style>
+
+                                <!-- the avatar markup -->
+                                <div id="kv-avatar-errors-1" class="center-block" style="width:800px;display:none"></div>
+                                <form class="text-center" action="/avatar_upload.php" method="post" enctype="multipart/form-data">
+                                    <div class="kv-avatar center-block" style="width:200px">
+                                        <input id="avatar-1" name="avatar-1" type="file" class="file-loading">
+                                    </div>
+                                    <!-- include other inputs if needed and include a form submit (save) button -->
+                                </form>
+                                <!-- your server code `avatar_upload.php` will receive `$_FILES['avatar']` on form submission -->
+
+                                <!-- the fileinput plugin initialization -->
+                                <script>
+                                    var btnCust = '<button type="button" class="btn btn-default" title="Add picture tags" ' +
+                                            'onclick="alert(\'Call your custom code here.\')">' +
+                                            '<i class="glyphicon glyphicon-tag"></i>' +
+                                            '</button>';
+                                    $("#avatar-1").fileinput({
+                                        overwriteInitial: true,
+                                        maxFileSize: 1500,
+                                        showClose: false,
+                                        showCaption: false,
+                                        browseLabel: '',
+                                        removeLabel: '',
+                                        browseIcon: '<i class="glyphicon glyphicon-folder-open"></i>',
+                                        removeIcon: '<i class="glyphicon glyphicon-remove"></i>',
+                                        removeTitle: 'Cancel or reset changes',
+                                        elErrorContainer: '#kv-avatar-errors-1',
+                                        msgErrorClass: 'alert alert-block alert-danger',
+                                        defaultPreviewContent: '<img src="/uploads/default_avatar_male.jpg" alt="Your Avatar" style="width:160px">',
+                                        layoutTemplates: {main2: '{preview} ' + btnCust + ' {remove} {browse}'},
+                                        allowedFileExtensions: ["jpg", "png", "gif"]
+                                    });
+                                </script>
                                 <p><a href="#">My Profile</a></p>
                                 <img src="img/910.jpg" class="img-circle" height="65" width="65" alt="Avatar">
                             </div>
@@ -186,11 +236,10 @@
 
                             <div class="row">
                                 <div class="col-sm-12">          
-
                                     <div class="panel panel-default text-left">             
 
                                         <div class="panel-body">
-                                            <p contenteditable="true">Status: Feeling Blue</p>
+
                                             <form action="Post.php" method="post" name="form1"> 
                                                 <div class="form-group col-sm-6">
                                                     <label for="Horario">Horário de funcionamento*</label>
@@ -202,25 +251,16 @@
                                                     <input type="Data"  class="form-control" id="Data" name="Data" placeholder="01/05/2016"> 
 
                                                 </div>
-                                                <form enctype="multipart/form-data">
-                                                    <input id="file-0a" class="file" type="file" multiple data-min-file-count="3">
-
-                                                    <div class="form-group">
-                                                        <input id="file-5" class="file" type="file" multiple data-preview-file-type="any" data-upload-url="#">
-                                                    </div>
-                                                </form>
-
 
                                                 <div class="form-group col-sm-6">
 
-                                                    <form enctype="multipart/form-data" action="upload.php" method="Post" >
-                                                        <label class="control-label">Selecione a Imagem ou flyer*</label>
-                                                        <input id="input-4" name="input4[]" type="file" multiple class="file-loading" required >
-                                                        <script>
-                                                            $(document).on('ready', function () {
-                                                                $("#input-4").fileinput({showCaption: false});
-                                                            });
-                                                        </script>                                                        
+                                                    <form enctype="multipart/form-data" action="upload.php" method="Post" >                                                      
+
+                                                        <div class="form-group">
+                                                            <label class="control-label">Selecione a Imagem ou flyer*</label>
+                                                            <input id="file-3" type="file" multiple=true>
+                                                        </div>
+
                                                         <br/>
                                                         <Button type="submit" name="enviar"  class="btn btn-default" > Enviar </Button>
                                                     </form>
@@ -230,14 +270,14 @@
                                                 <br>
                                                 <label>Descrição do evento*: </label>
                                                 <br/>
-                                                <textarea type="text" cols="30" rows="5" name="descricao" id="descricao"></textarea>
+                                                <textarea type="text" cols="30" rows="5" name="descricao" id="descricao" placeholder="Descreva o evento." ></textarea>
                                                 <br/>
                                                 <br/>
 
-
-                                                <center><button type="submit" class="btn btn-primary"><b>Publicar</b></button>
-                                                    <button type="reset" class="btn btn-default" name="reset" value="Limpar"><b>Limpar</b></button></center>
-
+                                                <div class="form-group col-sm-12">
+                                                    <center><button type="submit" class="btn btn-primary"><b>Publicar</b></button>
+                                                        <button type="reset" class="btn btn-default" name="reset" value="Limpar"><b>Limpar</b></button></center>
+                                                </div>
                                             </form>                                            
                                         </div>
                                     </div>
@@ -379,7 +419,7 @@
                 maxFileSize: 1000,
                 maxFilesNum: 10,
 //allowedFileTypes: ['image', 'video', 'flash'],
-                slugCallback: function (filename) {
+                slugCallback: function(filename) {
                     return filename.replace('(', '_').replace(']', '_');
                 }
             });
@@ -398,14 +438,14 @@
             $("#file-4").fileinput({
                 uploadExtraData: {kvId: '10'}
             });
-            $(".btn-warning").on('click', function () {
+            $(".btn-warning").on('click', function() {
                 if ($('#file-4').attr('disabled')) {
                     $('#file-4').fileinput('enable');
                 } else {
                     $('#file-4').fileinput('disable');
                 }
             });
-            $(".btn-info").on('click', function () {
+            $(".btn-info").on('click', function() {
                 $('#file-4').fileinput('refresh', {previewClass: 'bg-info'});
             });
             /*
@@ -416,7 +456,7 @@
              alert('File browse clicked for #file-4');
              });
              */
-            $(document).ready(function () {
+            $(document).ready(function() {
                 $("#test-upload").fileinput({
                     'showPreview': false,
                     'allowedFileExtensions': ['jpg', 'png', 'gif'],
