@@ -183,7 +183,7 @@
                                         </div>
                                         <div class="modal-body">
                                             <div class="container-fluid ">
-                                                <form class="form-signin modal-header">
+                                                <form class="form-signin modal-header" method="post">
                                                     <input type="hidden" name="acao" value="login">
                                                     
                                                     <label for="E-mail">E-mail*</label>
