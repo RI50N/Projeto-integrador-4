@@ -20,7 +20,7 @@
             // noinspection JSUnresolvedVariable
             module.exports = factory(require('jquery')); // jshint ignore:line
         } else {
-            // Browser globals
+            // Procurarr globals
             factory(window.jQuery);
         }
     }
@@ -32,7 +32,7 @@
 
     var NAMESPACE, MODAL_ID, STYLE_SETTING, OBJECT_PARAMS, DEFAULT_PREVIEW, objUrl, compare, isIE, handler,
         previewCache, getNum, hasFileAPISupport, hasDragDropSupport, hasFileUploadSupport, addCss, tMain1, tMain2,
-        tPreview, tFileIcon, tClose, tCaption, tBtnDefault, tBtnLink, tBtnBrowse, tModalMain, tModal, tProgress, tSize,
+        tPreview, tFileIcon, tClose, tCaption, tBtnDefault, tBtnLink, tBtnProcurar, tModalMain, tModal, tProgress, tSize,
         tFooter, tActions, tActionDelete, tActionUpload, tActionZoom, tActionDrag, tTagBef, tTagBef1, tTagBef2, tTagAft,
         tGeneric, tHtml, tImage, tText, tVideo, tAudio, tFlash, tObject, tPdf, tOther, defaultFileActionSettings,
         defaultLayoutTemplates, defaultPreviewTemplates, defaultPreviewZoomSettings, defaultPreviewTypes, getElement,
@@ -353,7 +353,7 @@
     //noinspection HtmlUnknownAttribute
     tBtnLink = '<a href="{href}" tabindex="500" title="{title}" class="{css}" {status}>{icon} {label}</a>';
     //noinspection HtmlUnknownAttribute
-    tBtnBrowse = '<div tabindex="500" class="{css}" {status}>{icon} {label}</div>';
+    tBtnProcurar = '<div tabindex="500" class="{css}" {status}>{icon} {label}</div>';
     tModalMain = '<div id="' + MODAL_ID + '" class="file-zoom-dialog modal fade" tabindex="-1" aria-labelledby="' +
         MODAL_ID + 'Label"></div>';
     tModal = '<div class="modal-dialog modal-lg" role="document">\n' +
@@ -433,7 +433,7 @@
         actionDrag: tActionDrag,
         btnDefault: tBtnDefault,
         btnLink: tBtnLink,
-        btnBrowse: tBtnBrowse
+        btnProcurar: tBtnProcurar
     };
     defaultPreviewTemplates = {
         generic: tTagBef1 + tGeneric + tTagAft,
@@ -932,7 +932,7 @@
         _listen: function () {
             var self = this, $el = self.$element, $form = $el.closest('form'), $cont = self.$container;
             handler($el, 'change', $.proxy(self._change, self));
-            if (self.showBrowse) {
+            if (self.showProcurar) {
                 handler(self.$btnFile, 'click', $.proxy(self._browse, self));
             }
             handler($form, 'reset', $.proxy(self.reset, self));
@@ -2573,9 +2573,9 @@
                 return false;
             }
         },
-        _initBrowse: function ($container) {
+        _initProcurar: function ($container) {
             var self = this;
-            if (self.showBrowse) {
+            if (self.showProcurar) {
                 self.$btnFile = $container.find('.btn-file');
                 self.$btnFile.append(self.$element);
             } else {
@@ -2622,7 +2622,7 @@
                 .attr({"class": 'file-input file-input-new'})
                 .html(self._renderMain());
             self.$element.before($container);
-            self._initBrowse($container);
+            self._initProcurar($container);
             if (self.theme) {
                 $container.addClass('theme-' + self.theme);
             }
@@ -2632,7 +2632,7 @@
             var self = this, $container = self.$container;
             $container.before(self.$element);
             $container.html(self._renderMain());
-            self._initBrowse($container);
+            self._initProcurar($container);
         },
         _renderMain: function () {
             var self = this, dropCss = (self.isUploadable && self.dropZoneEnabled) ? ' file-drop-zone' : 'file-drop-disabled',
@@ -2643,7 +2643,7 @@
                 css = self.isDisabled ? self.captionClass + ' file-caption-disabled' : self.captionClass,
                 caption = self.captionTemplate.replace(/\{class}/g, css + ' kv-fileinput-caption');
             return self.mainTemplate.replace(/\{class}/g, self.mainClass +
-                (!self.showBrowse && self.showCaption ? ' no-browse' : ''))
+                (!self.showProcurar && self.showCaption ? ' no-browse' : ''))
                 .replace(/\{preview}/g, preview)
                 .replace(/\{close}/g, close)
                 .replace(/\{caption}/g, caption)
@@ -2679,10 +2679,10 @@
                     }
                     break;
                 case 'browse':
-                    if (!self.showBrowse) {
+                    if (!self.showProcurar) {
                         return '';
                     }
-                    tmplt = self._getLayoutTemplate('btnBrowse');
+                    tmplt = self._getLayoutTemplate('btnProcurar');
                     break;
                 default:
                     return '';
@@ -3157,7 +3157,7 @@
     $.fn.fileinput.defaults = {
         language: 'en',
         showCaption: true,
-        showBrowse: true,
+        showProcurar: true,
         showPreview: true,
         showRemove: true,
         showUpload: true,
@@ -3274,7 +3274,7 @@
     $.fn.fileinputLocales.en = {
         fileSingle: 'file',
         filePlural: 'files',
-        browseLabel: 'Browse &hellip;',
+        browseLabel: 'Procurar &hellip;',
         removeLabel: 'Remove',
         removeTitle: 'Clear selected files',
         cancelLabel: 'Cancel',

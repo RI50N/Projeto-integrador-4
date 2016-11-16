@@ -49,6 +49,9 @@
                     $direcionar = 'index.php';
                     header("Location: {$direcionar}");
                     break;
+                case 'cadastrarEvento':
+                    var_dump($_FILES);
+                    break;
             endswitch;
         }
         /** @var Sistema */
@@ -240,7 +243,8 @@
 
                                         <div class="panel-body">
 
-                                            <form action="Post.php" method="post" name="form1"> 
+                                            <form enctype="multipart/form-data"  method="post" >
+                                                <input type="hidden" name="acao" value="cadastrarEvento">
                                                 <div class="form-group col-sm-6">
                                                     <label for="Horario">Horário de funcionamento*</label>
                                                     <input type="Horario"  class="form-control" id="horario" name="horario" placeholder="19h 30min"> 
@@ -252,19 +256,9 @@
 
                                                 </div>
 
-                                                <div class="form-group col-sm-6">
-
-                                                    <form enctype="multipart/form-data" action="upload.php" method="Post" >                                                      
-
-                                                        <div class="form-group">
-                                                            <label class="control-label">Selecione a Imagem ou flyer*</label>
-                                                            <input id="file-3" type="file" name="arquivo" multiple=true>
-                                                        </div>
-
-                                                        <br/>
-                                                        <Button type="submit" name="enviar"  class="btn btn-default" > Enviar </Button>
-                                                    </form>
-
+                                                <div class="form-group col-sm-6">                                                                                                      
+                                                    <label>Selecione a Imagem*</label>
+                                                    <input id="file-3" type="file" name="arquivo">
                                                 </div>
 
                                                 <br>
@@ -275,7 +269,7 @@
                                                 <br/>
 
                                                 <div class="form-group col-sm-12">
-                                                    <center><button type="submit" class="btn btn-primary"><b>Publicar</b></button>
+                                                    <center><button type="submit" class="btn btn-primary" name="submit" ><b>Publicar</b></button>
                                                         <button type="reset" class="btn btn-default" name="reset" value="Limpar"><b>Limpar</b></button></center>
                                                 </div>
                                             </form>                                            
