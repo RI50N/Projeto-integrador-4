@@ -21,7 +21,6 @@ class Sistema {
         $read = new Read();
         $read->ExeRead('nm_user', "WHERE email = :email AND senha = md5(:senha) AND ativo =1","email={$login}&senha={$senha}");
         $usuario = $read->getResult();
-         var_dump($usuario);
         if ($usuario):
             $this->setSession(md5(rand(1, 10000)));//hash unico para validar session
             $this->setTipoUser($usuario[0]['tipo']);

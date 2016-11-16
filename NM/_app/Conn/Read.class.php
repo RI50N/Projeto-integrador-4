@@ -26,7 +26,7 @@ class Read extends Conn {
      * @param STRING $ParseString = link={$link}&link2={$link2}
      * @example ExeRead('tabela_tal','WHERE id = :id_do_campo','id_do_campo = {$Valor}') 
      */
-    public function ExeRead($Tabela, $Termos = null, $ParseString = null,$camposDesejados=NULL) {
+    public function ExeRead($Tabela, $Termos = null, $ParseString = null,$camposDesejados=null) {
         if (!empty($ParseString)):
             parse_str($ParseString, $this->Places);
         endif;

@@ -118,7 +118,7 @@ class Anunciante {
         $update = new Update();
         if ($this->idUsuario):
             $DadosLogin = ['ativo' => 1];
-            $update->ExeUpdate('nm_user', $DadosLogin, "WHERE id_anunciante = {$this->idUsuario}");
+            $update->ExeUpdate('nm_user', $DadosLogin, "WHERE id = :idUsuario","idUsuario={$this->idUsuario}");
         endif;
     }
 
@@ -126,7 +126,7 @@ class Anunciante {
         $update = new Update();
         if ($this->idUsuario):
             $DadosLogin = ['ativo' => 0];
-            $update->ExeUpdate('nm_user', $DadosLogin, "WHERE id_anunciante = {$this->idUsuario}");
+            $update->ExeUpdate('nm_user', $DadosLogin, "WHERE id = :idUsuario","idUsuario={$this->idUsuario}");
         endif;
     }
 
@@ -137,8 +137,14 @@ class Anunciante {
         else:
             $listarAnunciantes->ExeRead('nm_anunciante INNER JOIN nm_user ON nm_user.id = nm_anunciante.id_user ');
         endif;
-        var_dump($listarAnunciantes);
         return $listarAnunciantes->getResult();
     }
-
+    
+    public function deletaAnunciante(){
+        $deletaAnunciante = new Delete();
+        $deletaAnunciante->ExeDelete('nm_user', 'WHERE id = :id', "id={$this->idUsuario}");
+        if($deletaAnunciante->getResult()){
+            $deletaAnunciante->ExeDelete('nm_anunciante', 'WHERE id_user = :id', "id={$this->idUsuario}");
+        }
+    } 
 }

@@ -60,10 +60,14 @@
     require('_app/Config.inc.php');
     if (isset($_POST['acao'])) {
         switch ($_POST['acao']):
+            case 'preCadastro':
+                $anunciante = new Anunciante();
+                $anunciante->populaDados($_POST);
+                $msg = $anunciante->cadastraDadosAnunciante();
+                break;
             case 'alterarStatus':
                 $anunciante = new Anunciante();
                 $anunciante->setId($_POST['idAnunciante']);
-
                 if ($_POST['status'] == 1):
                     $anunciante->ativa();
                 elseif ($_POST['status'] == 2):
@@ -75,6 +79,15 @@
                 $direcionar = 'index.php';
                 header("Location: {$direcionar}");
                 break;
+            case 'alterarDadosAnunciante':
+                var_dump($_POST);
+                break;
+            case 'excluirAnunciante':
+                $anunciante = new Anunciante();
+                $anunciante->setId($_POST['idUsuario']);
+                $anunciante->deletaAnunciante();
+                break;
+
 
         endswitch;
     }
@@ -119,7 +132,7 @@
                                         </div>
                                         <div class="modal-body">
                                             <div class="container-fluid">
-                                                <form class="form-signin modal-header" action="pagAnunciante.php" method="post">
+                                                <form class="form-signin modal-header" method="post">
                                                     <input type="hidden" name="acao" value="preCadastro">
 
                                                     <label for="NomeE">Nome da Empresa*</label>
@@ -179,7 +192,7 @@
                                                         <input type="telef"  class="form-control" id="celu" name="whatsapp" placeholder="(00)0000-0000"> 
                                                     </div>                                                
                                                     <br>
-                                                    <button type="submit" class="btn btn-primary" href="" >Cadastrar-se</button>
+                                                    <button type="submit" class="btn btn-primary" href="" >Cadastrarvar</button>
                                                 </form> 
                                             </div>
                                         </div>
@@ -257,7 +270,6 @@
                                                     echo 'Inativo';
                                                 }
                                                 ?></a>
-
                                             <div class="modal fade" id="myModal<?= $anunciantes[$i]['id'] ?>" role="dialog">
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
@@ -267,7 +279,7 @@
                                                         </div>
                                                         <div class="modal-body">
                                                             <div class="container-fluid">
-                                                                <form action="#" method="post">
+                                                                <form method="post">
                                                                     <input type="hidden" name="acao" value="alterarStatus">
                                                                     <input type="hidden" name="idAnunciante" value="<?= $anunciantes[$i]['id'] ?>">
                                                                     <label class="radio-inline"><input type="radio" name="status" <?php
@@ -281,7 +293,7 @@
                                                                         }
                                                                         ?> value="2">Desativar</label>
                                                                     <br>
-                                                                    <button type="submit" class="btn btn-primary" href="pgCliente.html" >Salvar</button>
+                                                                    <button type="submit" class="btn btn-primary">Salvar</button>
                                                                 </form>
                                                             </div>
                                                         </div>
@@ -300,11 +312,8 @@
                                                         </div>
                                                         <div class="modal-body">
                                                             <div class="container-fluid">
-
-
-                                                                <form class="form-signin modal-header">
-                                                                    <input type="hidden" name="acao" value="alterarDados">
-
+                                                                <form class="form-signin modal-header" method="POST">
+                                                                    <input type="hidden" name="acao" value="alterarDadosAnunciante">
                                                                     <label for="NomeE">Nome da Empresa*</label>
                                                                     <input type="text" class="form-control" value="<?= $anunciantes[$i]['nomeEmpresa'] ?>" id="NomeE" name="nomeEmpresa" >
                                                                     <br>
@@ -314,7 +323,6 @@
                                                                     <div class="form-group col-sm-6">
                                                                         <label for="CNPJ">CNPJ*</label>
                                                                         <input type="CNPJ"  class="form-control" id="CNPJ" name="cnpj" placeholder="00.000.000/0000-00" value="<?= $anunciantes[$i]['cnpj'] ?>"> 
-
                                                                     </div>
                                                                     <div class="form-group col-sm-6">
                                                                         <label for="Estado">Estado*</label>
@@ -327,22 +335,18 @@
                                                                     <div class="form-group col-sm-6">
                                                                         <label for="Endereço">Endereço*</label>
                                                                         <input type="Endereço"  class="form-control" id="Endereço" name="endereco" placeholder="rua de tal,n°00" value="<?= $anunciantes[$i]['endereco'] ?>"> 
-
                                                                     </div>
                                                                     <div class="form-group col-sm-6">
                                                                         <label for="Cep">Cep*</label>
                                                                         <input type="Cep"  class="form-control" id="Cep" name="cep" placeholder="00000-000" value="<?= $anunciantes[$i]['cep'] ?>"> 
-
                                                                     </div>
                                                                     <div class="form-group col-sm-6">
                                                                         <label for="Bairro">Bairro*</label>
                                                                         <input type="Bairro"  class="form-control" id="Bairro" name="bairro" placeholder="Cafundo do Judas" value="<?= $anunciantes[$i]['bairro'] ?>"> 
-
                                                                     </div>
                                                                     <div class="form-group col-sm-6">
                                                                         <label for="Nomer">Nome do Resposavel*</label>
                                                                         <input type="text" class="form-control" id="nomer" name="nomeResponsavel" value="<?= $anunciantes[$i]['nomeResponsavel'] ?>">
-
                                                                     </div>
                                                                     <div class="form-group col-sm-6">
                                                                         <label for="sobrenomer">Sobrenome do Resposavel*</label>
@@ -361,17 +365,7 @@
                                                                         <label for="celu">Celular/ whatsapp*</label>
                                                                         <input type="telef"  class="form-control" id="celu" name="whatsapp" placeholder="(00)0000-0000" value="<?= $anunciantes[$i]['whatsapp'] ?>"> 
                                                                     </div>
-                                                                    <div class="form-group col-sm-6">
-                                                                        <label for="senha">Senha*</label>
-                                                                        <input type="password" name="senha" id="senha" class="form-control" placeholder="Senha" required="" name="senha" >
-                                                                    </div>
-                                                                    <div class="form-group col-sm-6">
-                                                                        <label for="senha">Confirmar Senha*</label>
-                                                                        <input type="password" name="senha" id="senha" class="form-control" placeholder="Senha" required="" name="senha">
-                                                                    </div>
-                                                                    <br>
                                                                     <button type="submit" class="btn btn-primary" href="" >Alterar</button>
-                                                                    </fieldset>
                                                                 </form>
                                                             </div>	
                                                         </div>
@@ -383,7 +377,12 @@
                                                 </div>
                                         </td>
                                         <td>
-                                            <Button type="submit" name="excluir" alt="Excluir" title="Excluir" class="btn btn-primary" > X </Button>
+                                            <form method="post">
+                                                <input type="hidden" name="acao" value="excluirAnunciante">
+                                                <input type="hidden" name="idUsuario" value="<?= $anunciantes[$i]['id_user'] ?>">
+                                                <Button type="submit" name="excluir" alt="Excluir" title="Excluir" class="btn btn-primary" > X </Button>
+                                            </form>
+
                                         </td>
                                     </tr>
                                     <?php

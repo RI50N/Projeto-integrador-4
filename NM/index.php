@@ -36,7 +36,6 @@
                         endif;
                         if ($direcionar):
                             $_SESSION['sistema'] = serialize($sistema);
-                            var_dump($sistema->getSession());
                             header("Location: {$direcionar}");
                         endif;
                     endif;
