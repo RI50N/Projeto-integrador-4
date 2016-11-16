@@ -9,11 +9,7 @@
         <script src="js/jquery-3.1.1.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
         <script src="sisJs/index.js"></script>        
-        <style>
-            #brand-image{
-                height: 25px;
-            }
-        </style>
+        
     </head>
     <body>        
         <div class="container">
@@ -36,8 +32,8 @@
 
                     <div class="collapse navbar-collapse" id="myNavbar">               
                         <ul class="nav navbar-nav navbar-right">
-                            <li class="active"><a href="#">Home</a></li>                            
-                            <li><a href="#">Rolando Hoje</a></li> 
+                            <li><a href="#">Home</a></li>                            
+                            <li class="active"><a href="#">Rolando Hoje</a></li> 
                         </ul>
                     </div>
                 </div>

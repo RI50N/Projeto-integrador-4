@@ -134,6 +134,14 @@
 
                                                     </div>
                                                     <div class="form-group col-sm-6">
+                                                        <label for="Estado">Estado*</label>
+                                                        <input type="text" class="form-control" id="estado" name="estado" placeholder="RS" >                                                        
+                                                    </div>
+                                                    <div class="form-group col-sm-6">
+                                                        <label for="Cidade">Cidade*</label>
+                                                        <input type="text" class="form-control" id="cidade" name="cidade" placeholder="Porto Alegre">                                                                      
+                                                    </div>
+                                                    <div class="form-group col-sm-6">
                                                         <label for="Endereço">Endereço*</label>
                                                         <input type="Endereço"  class="form-control" id="Endereço" name="endereco" > 
 
@@ -180,9 +188,8 @@
                             </div>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
-                            <li class="active"><a href="#">Home</a></li>
-                            <li><a href="#">Promotores</a></li>
-                            <li><a href="#">Rolando Hoje</a></li> 
+                            <li><a href="#">Home</a></li>                           
+                            <li><a href="rolando.php">Rolando Hoje</a></li> 
                         </ul>
                     </div>
                 </div>
@@ -232,6 +239,7 @@
                                     <th>Nome Cliente</th>
                                     <th>Status</th>
                                     <th>Alterar Dados do Cliente</th>
+                                    <th>Excluir</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -309,13 +317,13 @@
 
                                                                     </div>
                                                                     <div class="form-group col-sm-6">
-                                                                                <label for="Estado">Estado*</label>
-                                                                                <input type="text" class="form-control" id="estados" name="estados"  placeholder="RS" value="<?= $anunciantes[$i]['estado'] ?>" >                                                                                
-                                                                            </div>
-                                                                            <div class="form-group col-sm-6">
-                                                                                <label for="Cidade">Cidade*</label>
-                                                                                <input type="text" class="form-control" id="cidade" name="cidade" placeholder="Porto Alegre" value="<?= $anunciantes[$i]['cidade'] ?>">                                                                      
-                                                                            </div>
+                                                                        <label for="Estado">Estado*</label>
+                                                                        <input type="text" class="form-control" id="estados" name="estados"  placeholder="RS" value="<?= $anunciantes[$i]['estado'] ?>" >                                                                                
+                                                                    </div>
+                                                                    <div class="form-group col-sm-6">
+                                                                        <label for="Cidade">Cidade*</label>
+                                                                        <input type="text" class="form-control" id="cidade" name="cidade" placeholder="Porto Alegre" value="<?= $anunciantes[$i]['cidade'] ?>">                                                                      
+                                                                    </div>
                                                                     <div class="form-group col-sm-6">
                                                                         <label for="Endereço">Endereço*</label>
                                                                         <input type="Endereço"  class="form-control" id="Endereço" name="endereco" placeholder="rua de tal,n°00" value="<?= $anunciantes[$i]['endereco'] ?>"> 
@@ -373,6 +381,9 @@
                                                     </div>
 
                                                 </div>
+                                        </td>
+                                        <td>
+                                            <Button type="submit" name="excluir" alt="Excluir" title="Excluir" class="btn btn-primary" > X </Button>
                                         </td>
                                     </tr>
                                     <?php

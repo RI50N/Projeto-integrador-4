@@ -166,7 +166,9 @@
                                                         <input type="password" name="senha" id="senha" class="form-control" placeholder="Senha" required="" name="senha">
                                                     </div>
                                                     <br>
+                                                    <div class="form-group col-sm-8">
                                                     <button type="submit" class="btn btn-primary" href="" >Cadastrar-se</button>
+                                                    </div>
                                                 </form> 
                                             </div>
                                         </div>
@@ -203,8 +205,8 @@
                         </ul>
 
                         <ul class="nav navbar-nav navbar-right">
-                            <li class="active"><a href="#">Home</a></li>                            
-                            <li><a href="#">Rolando Hoje</a></li> 
+                            <li class="active"><a href="index.php">Home</a></li>                            
+                            <li><a href="rolando.php">Rolando Hoje</a></li> 
                         </ul>
                     </div>
                 </div>

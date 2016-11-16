@@ -24,10 +24,10 @@
     <body>
         <style>
             div.scroll {
-                background-color: #00FFFF;
+                background-color:  #1E88E5;
                 width: 500px auto;
-                height: 600px;
-                overflow: scroll;
+                height: 600px;                
+                overflow-y: scroll;
             }
         </style>
 
@@ -158,7 +158,7 @@
                             </ul>
                             <ul class="nav navbar-nav navbar-right">
                                 <li><a href="#">Home</a></li>                                
-                                <li><a href="#">Rolando Hoje</a></li> 
+                                <li><a href="rolando.php">Rolando Hoje</a></li> 
                             </ul>
                         </div>
                     </div>
@@ -258,7 +258,7 @@
 
                                                         <div class="form-group">
                                                             <label class="control-label">Selecione a Imagem ou flyer*</label>
-                                                            <input id="file-3" type="file" multiple=true>
+                                                            <input id="file-3" type="file" name="arquivo" multiple=true>
                                                         </div>
 
                                                         <br/>
@@ -285,13 +285,8 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-sm-3">
-                                    <div class="well">
-                                        <p>John</p>
-                                        <img src="bird.jpg" class="img-circle" height="55" width="55" alt="Avatar">
-                                    </div>
-                                </div>
-                                <div class="col-sm-9">
+
+                                <div class="col-sm-12">
                                     <div class="scroll">
                                         <div class="well">
                                             <p>Exemplo</p>
@@ -322,45 +317,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <div class="well">
-                                        <p>Bo</p>
-                                        <img src="bandmember.jpg" class="img-circle" height="55" width="55" alt="Avatar">
-                                    </div>
-                                </div>
-                                <div class="col-sm-9">
-                                    <div class="well">
-                                        <p>Just Forgot that I had to mention something about someone to someone about how I forgot something, but now I forgot it. Ahh, forget it! Or wait. I remember.... no I don't.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <div class="well">
-                                        <p>Jane</p>
-                                        <img src="bandmember.jpg" class="img-circle" height="55" width="55" alt="Avatar">
-                                    </div>
-                                </div>
-                                <div class="col-sm-9">
-                                    <div class="well">
-                                        <p>Just Forgot that I had to mention something about someone to someone about how I forgot something, but now I forgot it. Ahh, forget it! Or wait. I remember.... no I don't.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <div class="well">
-                                        <p>Anja</p>
-                                        <img src="bird.jpg" class="img-circle" height="55" width="55" alt="Avatar">
-                                    </div>
-                                </div>
-                                <div class="col-sm-9">
-                                    <div class="well">
-                                        <p>Just Forgot that I had to mention something about someone to someone about how I forgot something, but now I forgot it. Ahh, forget it! Or wait. I remember.... no I don't.</p>
-                                    </div>
-                                </div>
-                            </div>
+
+
+
                         </div>
                         <div class="col-sm-2 well">
                             <div class="thumbnail">
