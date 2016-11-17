@@ -223,7 +223,7 @@
                 <div class="carousel-inner" role="listbox">
 
                     <div class="item active">
-                        <img   class=" embed-responsive-item" src="img/b1.jpg"  >
+                        <img   class="embed-responsive-item" src="img/b1.jpg"  >
                     </div>
 
                     <div class="item">
