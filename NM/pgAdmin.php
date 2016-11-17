@@ -13,23 +13,23 @@
 <script>
     function mostrar_abas(obj) {
 
-        document.getElementById('div_aba1').style.display = "none";
-        document.getElementById('div_aba2').style.display = "none";
-        document.getElementById('div_aba3').style.display = "none";
+        $('.ativo1').hide();
+        $('.ativo0').hide();
 
         switch (obj.id)
         {
 
-            case 'mostra_aba1':
-                document.getElementById('div_aba1').style.display = "block";
+            case 'ativa':
+                $('.ativo1').show();
                 break
 
-            case 'mostra_aba2':
-                document.getElementById('div_aba2').style.display = "block";
+            case 'desativadas':
+                $('.ativo0').show();
                 break
 
-            case 'mostra_aba3':
-                document.getElementById('div_aba3').style.display = "block";
+            case 'todas':
+                $('.ativo1').show();
+                $('.ativo0').show();
                 break
 
         }
@@ -59,14 +59,13 @@
     <?php
     require('_app/Config.inc.php');
     if (isset($_POST['acao'])) {
+        $anunciante = new Anunciante();
         switch ($_POST['acao']):
             case 'preCadastro':
-                $anunciante = new Anunciante();
                 $anunciante->populaDados($_POST);
                 $msg = $anunciante->cadastraDadosAnunciante();
                 break;
             case 'alterarStatus':
-                $anunciante = new Anunciante();
                 $anunciante->setId($_POST['idAnunciante']);
                 if ($_POST['status'] == 1):
                     $anunciante->ativa();
@@ -80,10 +79,11 @@
                 header("Location: {$direcionar}");
                 break;
             case 'alterarDadosAnunciante':
-                var_dump($_POST);
+                $anunciante->setId($_POST['idUsuario']);
+                $anunciante->populaDados($_POST);
+                $anunciante->updateDadosAnunciante();
                 break;
             case 'excluirAnunciante':
-                $anunciante = new Anunciante();
                 $anunciante->setId($_POST['idUsuario']);
                 $anunciante->deletaAnunciante();
                 break;
@@ -200,7 +200,7 @@
                                                         <input type="password" name="senha" id="senha" class="form-control" placeholder="Senha" required="" name="senha">
                                                     </div>                                                  
                                                     <div class="form-group col-sm-8">
-                                                    <button type="submit" class="btn btn-primary" href="" >Cadastrarvar</button>
+                                                        <button type="submit" class="btn btn-primary" href="" >Cadastrarvar</button>
                                                     </div>
                                                 </form> 
                                             </div>
@@ -222,7 +222,8 @@
             <div class="container">
                 <div class="col-md-4 text-center container ">
                     <h2>Night Mess</h2>
-                    <img src="img/bussula2.png" class="img-circle" alt="Cinque Terre" width="304" height="236">
+                    <img src="img/bussula2.png" class="img-circle" alt="Cinque Terre" width="304" height="236"  style="margin-bottom: 20px">
+
 
                 </div>
                 <div class="col-sm-8">
@@ -231,28 +232,16 @@
                     </div>
 
                     <div class="col-md-3">
-                        <button class="btn btn-sm btn-primary btn-block" type="submit" onclick="mostrar_abas(this);" id="mostra_aba1" >Todas as contas</button>
+                        <button class="btn btn-sm btn-primary btn-block" type="submit" onclick="mostrar_abas(this);" id="todas" >Todas as contas</button>
                     </div> 
 
                     <div class="col-md-3">
-                        <button class="btn btn-sm btn-primary btn-block" type="submit" onclick="mostrar_abas(this);" id="mostra_aba2" >Ativadas</button>
+                        <button class="btn btn-sm btn-primary btn-block" type="submit" onclick="mostrar_abas(this);" id="ativa" >Ativadas</button>
                     </div>
 
                     <div class="col-md-3"> 
-                        <button class="btn btn-sm btn-primary btn-block" type="submit" onclick="mostrar_abas(this);" id="mostra_aba3">Desativadas</button>
+                        <button class="btn btn-sm btn-primary btn-block" type="submit" onclick="mostrar_abas(this);" id="desativadas">Desativadas</button>
                     </div>
-
-                    <div class="col-md-2"> 
-                        <form class="form-search">
-                            <input class="form-control " id="ex1" type="text">
-
-                            </div>	
-
-                            <div class="col-md-1">
-                                <button type="submit" class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-search"></span></button></input>
-                        </form>
-                    </div>
-
                     <br><br>
                     <div id="div_aba1" style="display:block;">
                         <table border="1" class="table table-bordered">
@@ -270,7 +259,7 @@
                                 $anunciantes = $listaAnunciantes->buscaDadosAnunciante();
                                 for ($i = 0; $i < count($anunciantes); $i++):
                                     ?>
-                                    <tr class="info">
+                                    <tr class="info ativo<?= $anunciantes[$i]['ativo'] ?>">
                                         <td><?php echo $anunciantes[$i]['nomeResponsavel'] . $anunciantes[$i]['sobrenomeResponsavel']; ?></td>
                                         <td><a data-toggle="modal" data-target="#myModal<?= $anunciantes[$i]['id'] ?>"><?php
                                                 if ($anunciantes[$i]['ativo'] == 1) {
@@ -322,6 +311,7 @@
                                                         <div class="modal-body">
                                                             <div class="container-fluid">
                                                                 <form class="form-signin modal-header" method="POST">
+                                                                    <input type="hidden" name="idUsuario" value="<?= $anunciantes[$i]['id_user'] ?>">
                                                                     <input type="hidden" name="acao" value="alterarDadosAnunciante">
                                                                     <label for="NomeE">Nome da Empresa*</label>
                                                                     <input type="text" class="form-control" value="<?= $anunciantes[$i]['nomeEmpresa'] ?>" id="NomeE" name="nomeEmpresa" >
@@ -335,7 +325,7 @@
                                                                     </div>
                                                                     <div class="form-group col-sm-6">
                                                                         <label for="Estado">Estado*</label>
-                                                                        <input type="text" class="form-control" id="estados" name="estados"  placeholder="RS" value="<?= $anunciantes[$i]['estado'] ?>" >                                                                                
+                                                                        <input type="text" class="form-control" id="estados" name="estado"  placeholder="RS" value="<?= $anunciantes[$i]['estado'] ?>" >                                                                                
                                                                     </div>
                                                                     <div class="form-group col-sm-6">
                                                                         <label for="Cidade">Cidade*</label>
@@ -368,11 +358,11 @@
                                                                     </div>
                                                                     <div class="form-group col-sm-6">
                                                                         <label for="telef">Telefone de contato*</label>
-                                                                        <input type="telef"  class="form-control" id="telef" name="telefoneContato" placeholder="(00)0000-0000" value="<?= $anunciantes[$i]['telefoneContato'] ?>"> 
+                                                                        <input type="telef"  class="form-control" id="telefone" name="telefoneContato" placeholder="(00)0000-0000" value="<?= $anunciantes[$i]['telefoneContato'] ?>"> 
                                                                     </div>
                                                                     <div class="form-group col-sm-6">
                                                                         <label for="celu">Celular/ whatsapp*</label>
-                                                                        <input type="telef"  class="form-control" id="celu" name="whatsapp" placeholder="(00)0000-0000" value="<?= $anunciantes[$i]['whatsapp'] ?>"> 
+                                                                        <input type="telef"  class="form-control" id="celular" name="whatsapp" placeholder="(00)0000-0000" value="<?= $anunciantes[$i]['whatsapp'] ?>"> 
                                                                     </div>
                                                                     <button type="submit" class="btn btn-primary" href="" >Alterar</button>
                                                                 </form>
@@ -382,8 +372,8 @@
                                                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                                         </div>
                                                     </div>
-
                                                 </div>
+                                            </div>
                                         </td>
                                         <td>
                                             <form method="post">
@@ -397,42 +387,6 @@
                                     <?php
                                 endfor;
                                 ?>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div id="div_aba2" style="display:none;">
-                        <table border="1" class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>Nome Cliente</th>
-                                    <th>Status</th>
-                                    <th>Alterar Dados do Cliente</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="info">
-                                    <td>Anthony</td>
-                                    <td><a onclick="" action="">Ativado</a></td>
-                                    <td><a onclick="" action="">Alterar Dados</a></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div id="div_aba3" style="display:none;">
-                        <table border="1" class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>Nome Cliente</th>
-                                    <th>Status</th>
-                                    <th>Alterar Dados do Cliente</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="info">
-                                    <td>João</td>
-                                    <td><a onclick="" action="">Desativado</a></td>
-                                    <td><a onclick="" action="">Alterar Dados</a></td>
-                                </tr>
                             </tbody>
                         </table>
                     </div>
