@@ -88,10 +88,13 @@ class Anunciante {
 
     public function updateDadosAnunciante() {
         $update = new Update();
-        $Dados = ['nomeEmpresa' => $this->nomeEmpresa,
+        $Dados = [
+            'nomeEmpresa' => $this->nomeEmpresa,
             'nomeFantasia' => $this->nomeFantasia,
             'CNPJ' => $this->CNPJ,
             'endereco' => $this->endereco,
+            'cidade' => $this->cidade,
+            'estado' => $this->estado,
             'CEP' => $this->CEP,
             'bairro' => $this->bairro,
             'nomeResponsavel' => $this->nomeResponsavel,
@@ -100,14 +103,15 @@ class Anunciante {
             'whatsapp' => $this->whatsapp,
         ];
 
-        $update->ExeUpdate('nm_anunciante', $Dados, "WHERE id = :id", "id={$this->idUsuario}");
+        $update->ExeUpdate('nm_anunciante', $Dados, "WHERE id_user = :id", "id={$this->idUsuario}");
         $this->idUsuario = $update->getResult();
+        var_dump($update->getResult());
         if ($this->idUsuario):
             $DadosLogin = ['email' => $this->email,
                 'senha' => $this->senha,
             ];
 
-            $update->ExeUpdate('nm_user', $DadosLogin, "WHERE id_anunciante = :id", "id={$this->idUsuario}");
+            $update->ExeUpdate('nm_user', $DadosLogin, "WHERE id = :id", "id={$this->idUsuario}");
             return "Update realizado com sucesso.";
         else:
             return "Ops, ocorreu alguma falha.";

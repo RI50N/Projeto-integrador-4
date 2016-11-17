@@ -13,23 +13,24 @@
 <script>
     function mostrar_abas(obj) {
 
-        document.getElementById('div_aba1').style.display = "none";
-        document.getElementById('div_aba2').style.display = "none";
-        document.getElementById('div_aba3').style.display = "none";
+        $('.ativo1').hide();
+        $('.ativo0').hide();
+
 
         switch (obj.id)
         {
 
-            case 'mostra_aba1':
-                document.getElementById('div_aba1').style.display = "block";
+            case 'ativa':
+                $('.ativo1').show();
                 break
 
-            case 'mostra_aba2':
-                document.getElementById('div_aba2').style.display = "block";
+            case 'desativadas':
+                $('.ativo0').show();
                 break
 
-            case 'mostra_aba3':
-                document.getElementById('div_aba3').style.display = "block";
+            case 'todas':
+                $('.ativo1').show();
+                $('.ativo0').show();
                 break
 
         }
@@ -59,14 +60,14 @@
     <?php
     require('_app/Config.inc.php');
     if (isset($_POST['acao'])) {
+        $anunciante = new Anunciante();
+        
         switch ($_POST['acao']):
             case 'preCadastro':
-                $anunciante = new Anunciante();
                 $anunciante->populaDados($_POST);
                 $msg = $anunciante->cadastraDadosAnunciante();
                 break;
-            case 'alterarStatus':
-                $anunciante = new Anunciante();
+            case 'alterarStatus':    
                 $anunciante->setId($_POST['idAnunciante']);
                 if ($_POST['status'] == 1):
                     $anunciante->ativa();
@@ -80,10 +81,11 @@
                 header("Location: {$direcionar}");
                 break;
             case 'alterarDadosAnunciante':
-                var_dump($_POST);
+                $anunciante->setId($_POST['idUsuario']);
+                $anunciante->populaDados($_POST);
+                $anunciante->updateDadosAnunciante();
                 break;
             case 'excluirAnunciante':
-                $anunciante = new Anunciante();
                 $anunciante->setId($_POST['idUsuario']);
                 $anunciante->deletaAnunciante();
                 break;
@@ -102,7 +104,7 @@
             <nav class="navbar  navbar-inverse ">
                 <div class="container-fluid">
 
-                    <div class="navbar-header">
+                    <div class="navbar-header ">
                         <a class="navbar-brand" href="#">
                             <span class="bv act aoq">
                                 <img  id="brand-image"  alt="logo" src="img/bussula2.png" href="img/bussula.png" width="50" height="200" >
@@ -211,26 +213,27 @@
             <br>
             <br>
             <div class="container">
-                <div class="col-md-4 text-center container ">
+                <div class="col-sm-4 text-center container ">
                     <h2>Night Mess</h2>
-                    <img src="img/bussula2.png" class="img-circle" alt="Cinque Terre" width="304" height="236">
+                    <img src="img/bussula2.png" class="img-circle" alt="Cinque Terre" width="304" height="236" style="margin-bottom: 20px">
 
                 </div>
+               
                 <div class="col-sm-8">
                     <div class="panel panel-primary bnt-primary test">
                         <div class="panel-heading">Contas</div>
                     </div>
 
                     <div class="col-md-3">
-                        <button class="btn btn-sm btn-primary btn-block" type="submit" onclick="mostrar_abas(this);" id="mostra_aba1" >Todas as contas</button>
+                        <button class="btn btn-sm btn-primary btn-block" type="submit" onclick="mostrar_abas(this);" id="todas" >Todas as contas</button>
                     </div> 
 
                     <div class="col-md-3">
-                        <button class="btn btn-sm btn-primary btn-block" type="submit" onclick="mostrar_abas(this);" id="mostra_aba2" >Ativadas</button>
+                        <button class="btn btn-sm btn-primary btn-block" type="submit" onclick="mostrar_abas(this);" id="ativas" >Ativadas</button>
                     </div>
 
                     <div class="col-md-3"> 
-                        <button class="btn btn-sm btn-primary btn-block" type="submit" onclick="mostrar_abas(this);" id="mostra_aba3">Desativadas</button>
+                        <button class="btn btn-sm btn-primary btn-block" type="submit" onclick="mostrar_abas(this);" id="desativadas">Desativadas</button>
                     </div>
 
                     <div class="col-md-2"> 
@@ -245,188 +248,153 @@
                     </div>
 
                     <br><br>
-                    <div id="div_aba1" style="display:block;">
-                        <table border="1" class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>Nome Cliente</th>
-                                    <th>Status</th>
-                                    <th>Alterar Dados do Cliente</th>
-                                    <th>Excluir</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                $listaAnunciantes = new Anunciante();
-                                $anunciantes = $listaAnunciantes->buscaDadosAnunciante();
-                                for ($i = 0; $i < count($anunciantes); $i++):
-                                    ?>
-                                    <tr class="info">
-                                        <td><?php echo $anunciantes[$i]['nomeResponsavel'] . $anunciantes[$i]['sobrenomeResponsavel']; ?></td>
-                                        <td><a data-toggle="modal" data-target="#myModal<?= $anunciantes[$i]['id'] ?>"><?php
-                                                if ($anunciantes[$i]['ativo'] == 1) {
-                                                    echo 'Ativo';
-                                                } else {
-                                                    echo 'Inativo';
-                                                }
-                                                ?></a>
-                                            <div class="modal fade" id="myModal<?= $anunciantes[$i]['id'] ?>" role="dialog">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                            <h4 class="modal-title">Status <?= $anunciantes[$i]['nomeResponsavel'] ?></h4>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <div class="container-fluid">
-                                                                <form method="post">
-                                                                    <input type="hidden" name="acao" value="alterarStatus">
-                                                                    <input type="hidden" name="idAnunciante" value="<?= $anunciantes[$i]['id'] ?>">
-                                                                    <label class="radio-inline"><input type="radio" name="status" <?php
-                                                                        if ($anunciantes[$i]['ativo'] == 1) {
-                                                                            echo ' selected ';
-                                                                        }
-                                                                        ?> value="1">Ativar</label>
-                                                                    <label class="radio-inline"><input type="radio" name="status" <?php
-                                                                        if ($anunciantes[$i]['ativo'] == 0) {
-                                                                            echo ' selected ';
-                                                                        }
-                                                                        ?> value="2">Desativar</label>
-                                                                    <br>
-                                                                    <button type="submit" class="btn btn-primary">Salvar</button>
-                                                                </form>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>							
-                                        </td>
-                                        <td><a data-toggle="modal" data-target="#myModalDados<?= $anunciantes[$i]['id'] ?>">Alterar Dados</a>
-                                            <div class="modal fade" id="myModalDados<?= $anunciantes[$i]['id'] ?>" role="dialog">
-                                                <div class="modal-dialog">
 
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                            <h4 class="modal-title">Alteração de Dados</h4>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <div class="container-fluid">
-                                                                <form class="form-signin modal-header" method="POST">
-                                                                    <input type="hidden" name="acao" value="alterarDadosAnunciante">
-                                                                    <label for="NomeE">Nome da Empresa*</label>
-                                                                    <input type="text" class="form-control" value="<?= $anunciantes[$i]['nomeEmpresa'] ?>" id="NomeE" name="nomeEmpresa" >
-                                                                    <br>
-                                                                    <label for="Nomef">Nome Fantasia*</label>
-                                                                    <input type="text" class="form-control" id="Nomef" name="nomeFantasia" value="<?= $anunciantes[$i]['nomeFantasia'] ?>">
-                                                                    <br>
-                                                                    <div class="form-group col-sm-6">
-                                                                        <label for="CNPJ">CNPJ*</label>
-                                                                        <input type="CNPJ"  class="form-control" id="CNPJ" name="cnpj" placeholder="00.000.000/0000-00" value="<?= $anunciantes[$i]['cnpj'] ?>"> 
-                                                                    </div>
-                                                                    <div class="form-group col-sm-6">
-                                                                        <label for="Estado">Estado*</label>
-                                                                        <input type="text" class="form-control" id="estados" name="estados"  placeholder="RS" value="<?= $anunciantes[$i]['estado'] ?>" >                                                                                
-                                                                    </div>
-                                                                    <div class="form-group col-sm-6">
-                                                                        <label for="Cidade">Cidade*</label>
-                                                                        <input type="text" class="form-control" id="cidade" name="cidade" placeholder="Porto Alegre" value="<?= $anunciantes[$i]['cidade'] ?>">                                                                      
-                                                                    </div>
-                                                                    <div class="form-group col-sm-6">
-                                                                        <label for="Endereço">Endereço*</label>
-                                                                        <input type="Endereço"  class="form-control" id="Endereço" name="endereco" placeholder="rua de tal,n°00" value="<?= $anunciantes[$i]['endereco'] ?>"> 
-                                                                    </div>
-                                                                    <div class="form-group col-sm-6">
-                                                                        <label for="Cep">Cep*</label>
-                                                                        <input type="Cep"  class="form-control" id="Cep" name="cep" placeholder="00000-000" value="<?= $anunciantes[$i]['cep'] ?>"> 
-                                                                    </div>
-                                                                    <div class="form-group col-sm-6">
-                                                                        <label for="Bairro">Bairro*</label>
-                                                                        <input type="Bairro"  class="form-control" id="Bairro" name="bairro" placeholder="Cafundo do Judas" value="<?= $anunciantes[$i]['bairro'] ?>"> 
-                                                                    </div>
-                                                                    <div class="form-group col-sm-6">
-                                                                        <label for="Nomer">Nome do Resposavel*</label>
-                                                                        <input type="text" class="form-control" id="nomer" name="nomeResponsavel" value="<?= $anunciantes[$i]['nomeResponsavel'] ?>">
-                                                                    </div>
-                                                                    <div class="form-group col-sm-6">
-                                                                        <label for="sobrenomer">Sobrenome do Resposavel*</label>
-                                                                        <input type="text" class="form-control" id="sobrenomer" name="sobrenomeResponsavel" value="<?= $anunciantes[$i]['sobrenomeResponsavel'] ?>">
-
-                                                                    </div>
-                                                                    <div class="form-group col-sm-6">
-                                                                        <label for="E-mail">E-mail*</label>
-                                                                        <input type="email"  class="form-control" id="email" name="email" placeholder="email@exemplo.com" value="<?= $anunciantes[$i]['email'] ?>"> 
-                                                                    </div>
-                                                                    <div class="form-group col-sm-6">
-                                                                        <label for="telef">Telefone de contato*</label>
-                                                                        <input type="telef"  class="form-control" id="telef" name="telefoneContato" placeholder="(00)0000-0000" value="<?= $anunciantes[$i]['telefoneContato'] ?>"> 
-                                                                    </div>
-                                                                    <div class="form-group col-sm-6">
-                                                                        <label for="celu">Celular/ whatsapp*</label>
-                                                                        <input type="telef"  class="form-control" id="celu" name="whatsapp" placeholder="(00)0000-0000" value="<?= $anunciantes[$i]['whatsapp'] ?>"> 
-                                                                    </div>
-                                                                    <button type="submit" class="btn btn-primary" href="" >Alterar</button>
-                                                                </form>
-                                                            </div>	
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                        </td>
-                                        <td>
-                                            <form method="post">
-                                                <input type="hidden" name="acao" value="excluirAnunciante">
-                                                <input type="hidden" name="idUsuario" value="<?= $anunciantes[$i]['id_user'] ?>">
-                                                <Button type="submit" name="excluir" alt="Excluir" title="Excluir" class="btn btn-primary" > X </Button>
-                                            </form>
-
-                                        </td>
-                                    </tr>
-                                    <?php
-                                endfor;
+                    <table border="1" class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Nome Cliente</th>
+                                <th>Status</th>
+                                <th>Alterar Dados do Cliente</th>
+                                <th>Excluir</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $listaAnunciantes = new Anunciante();
+                            $anunciantes = $listaAnunciantes->buscaDadosAnunciante();
+                            for ($i = 0; $i < count($anunciantes); $i++):
                                 ?>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div id="div_aba2" style="display:none;">
-                        <table border="1" class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>Nome Cliente</th>
-                                    <th>Status</th>
-                                    <th>Alterar Dados do Cliente</th>
+                                <tr class="info ativo<?= $anunciantes[$i]['ativo'] ?>">
+                                    <td><?php echo $anunciantes[$i]['nomeResponsavel'] . $anunciantes[$i]['sobrenomeResponsavel']; ?></td>
+                                    <td><a data-toggle="modal" data-target="#myModal<?= $anunciantes[$i]['id'] ?>"><?php
+                                            if ($anunciantes[$i]['ativo'] == 1) {
+                                                echo 'Ativo';
+                                            } else {
+                                                echo 'Inativo';
+                                            }
+                                            ?></a>
+                                        <div class="modal fade" id="myModal<?= $anunciantes[$i]['id'] ?>" role="dialog">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        <h4 class="modal-title">Status <?= $anunciantes[$i]['nomeResponsavel'] ?></h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="container-fluid">
+                                                            <form method="post">
+                                                                <input type="hidden" name="acao" value="alterarStatus">
+                                                                <input type="hidden" name="idAnunciante" value="<?= $anunciantes[$i]['id'] ?>">
+                                                                <label class="radio-inline"><input type="radio" name="status" <?php
+                                                                    if ($anunciantes[$i]['ativo'] == 1) {
+                                                                        echo ' selected ';
+                                                                    }
+                                                                    ?> value="1">Ativar</label>
+                                                                <label class="radio-inline"><input type="radio" name="status" <?php
+                                                                    if ($anunciantes[$i]['ativo'] == 0) {
+                                                                        echo ' selected ';
+                                                                    }
+                                                                    ?> value="2">Desativar</label>
+                                                                <br>
+                                                                <button type="submit" class="btn btn-primary">Salvar</button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>							
+                                    </td>
+                                    <td><a data-toggle="modal" data-target="#myModalDados<?= $anunciantes[$i]['id'] ?>">Alterar Dados</a>
+                                        <div class="modal fade" id="myModalDados<?= $anunciantes[$i]['id'] ?>" role="dialog">
+                                            <div class="modal-dialog">
+
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        <h4 class="modal-title">Alteração de Dados</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="container-fluid">
+                                                            <form class="form-signin modal-header" method="POST">
+                                                                <input type="hidden" name="idUsuario" value="<?= $anunciantes[$i]['id_user'] ?>">
+                                                                <input type="hidden" name="acao" value="alterarDadosAnunciante">
+                                                                <label for="NomeE">Nome da Empresa*</label>
+                                                                <input type="text" class="form-control" value="<?= $anunciantes[$i]['nomeEmpresa'] ?>" id="NomeE" name="nomeEmpresa" >
+                                                                <br>
+                                                                <label for="Nomef">Nome Fantasia*</label>
+                                                                <input type="text" class="form-control" id="Nomef" name="nomeFantasia" value="<?= $anunciantes[$i]['nomeFantasia'] ?>">
+                                                                <br>
+                                                                <div class="form-group col-sm-6">
+                                                                    <label for="CNPJ">CNPJ*</label>
+                                                                    <input type="CNPJ"  class="form-control" id="CNPJ" name="cnpj" placeholder="00.000.000/0000-00" value="<?= $anunciantes[$i]['cnpj'] ?>"> 
+                                                                </div>
+                                                                <div class="form-group col-sm-6">
+                                                                    <label for="Estado">Estado*</label>
+                                                                    <input type="text" class="form-control" id="estados" name="estado"  placeholder="RS" value="<?= $anunciantes[$i]['estado'] ?>" >                                                                                
+                                                                </div>
+                                                                <div class="form-group col-sm-6">
+                                                                    <label for="Cidade">Cidade*</label>
+                                                                    <input type="text" class="form-control" id="cidade" name="cidade" placeholder="Porto Alegre" value="<?= $anunciantes[$i]['cidade'] ?>">                                                                      
+                                                                </div>
+                                                                <div class="form-group col-sm-6">
+                                                                    <label for="Endereço">Endereço*</label>
+                                                                    <input type="Endereço"  class="form-control" id="Endereço" name="endereco" placeholder="rua de tal,n°00" value="<?= $anunciantes[$i]['endereco'] ?>"> 
+                                                                </div>
+                                                                <div class="form-group col-sm-6">
+                                                                    <label for="Cep">Cep*</label>
+                                                                    <input type="Cep"  class="form-control" id="Cep" name="cep" placeholder="00000-000" value="<?= $anunciantes[$i]['cep'] ?>"> 
+                                                                </div>
+                                                                <div class="form-group col-sm-6">
+                                                                    <label for="Bairro">Bairro*</label>
+                                                                    <input type="Bairro"  class="form-control" id="Bairro" name="bairro" placeholder="Cafundo do Judas" value="<?= $anunciantes[$i]['bairro'] ?>"> 
+                                                                </div>
+                                                                <div class="form-group col-sm-6">
+                                                                    <label for="Nomer">Nome do Resposavel*</label>
+                                                                    <input type="text" class="form-control" id="nomer" name="nomeResponsavel" value="<?= $anunciantes[$i]['nomeResponsavel'] ?>">
+                                                                </div>
+                                                                <div class="form-group col-sm-6">
+                                                                    <label for="sobrenomer">Sobrenome do Resposavel*</label>
+                                                                    <input type="text" class="form-control" id="sobrenomer" name="sobrenomeResponsavel" value="<?= $anunciantes[$i]['sobrenomeResponsavel'] ?>">
+
+                                                                </div>
+                                                                <div class="form-group col-sm-6">
+                                                                    <label for="E-mail">E-mail*</label>
+                                                                    <input type="email"  class="form-control" id="email" name="email" placeholder="email@exemplo.com" value="<?= $anunciantes[$i]['email'] ?>"> 
+                                                                </div>
+                                                                <div class="form-group col-sm-6">
+                                                                    <label for="telef">Telefone de contato*</label>
+                                                                    <input type="telef"  class="form-control" id="telefone" name="telefoneContato" placeholder="(00)0000-0000" value="<?= $anunciantes[$i]['telefoneContato'] ?>"> 
+                                                                </div>
+                                                                <div class="form-group col-sm-6">
+                                                                    <label for="celu">Celular/ whatsapp*</label>
+                                                                    <input type="telef"  class="form-control" id="celular" name="whatsapp" placeholder="(00)0000-0000" value="<?= $anunciantes[$i]['whatsapp'] ?>"> 
+                                                                </div>
+                                                                <button type="submit" class="btn btn-primary" href="" >Alterar</button>
+                                                            </form>
+                                                        </div>	
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                    </td>
+                                    <td>
+                                        <form method="post">
+                                            <input type="hidden" name="acao" value="excluirAnunciante">
+                                            <input type="hidden" name="idUsuario" value="<?= $anunciantes[$i]['id_user'] ?>">
+                                            <Button type="submit" name="excluir" alt="Excluir" title="Excluir" class="btn btn-primary" > X </Button>
+                                        </form>
+
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="info">
-                                    <td>Anthony</td>
-                                    <td><a onclick="" action="">Ativado</a></td>
-                                    <td><a onclick="" action="">Alterar Dados</a></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div id="div_aba3" style="display:none;">
-                        <table border="1" class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>Nome Cliente</th>
-                                    <th>Status</th>
-                                    <th>Alterar Dados do Cliente</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="info">
-                                    <td>João</td>
-                                    <td><a onclick="" action="">Desativado</a></td>
-                                    <td><a onclick="" action="">Alterar Dados</a></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                                <?php
+                            endfor;
+                            ?>
+                        </tbody>
+                    </table>
+
                 </div>
             </div>
             <footer>
