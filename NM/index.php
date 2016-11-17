@@ -44,9 +44,9 @@
             endswitch;
         }
         ?>  
-        <div class="container">
+        <div class="container-fluid">
             <nav class="navbar  navbar-inverse ">
-                <div class="container-fluid">
+               
 
                     <div class="navbar-header">
                         <a class="navbar-brand" href="#">
@@ -163,8 +163,7 @@
                                                     <div class="form-group col-sm-6">
                                                         <label for="senha">Confirmar Senha*</label>
                                                         <input type="password" name="senha" id="senha" class="form-control" placeholder="Senha" required="" name="senha">
-                                                    </div>
-                                                    <br>
+                                                    </div>                                                    
                                                     <div class="form-group col-sm-8">
                                                     <button type="submit" class="btn btn-primary" href="" >Cadastrar-se</button>
                                                     </div>
@@ -208,8 +207,9 @@
                             <li><a href="rolando.php">Rolando Hoje</a></li> 
                         </ul>
                     </div>
-                </div>
+                
             </nav>
+            <div class="container">
             <div id="myCarousel" class="carousel slide">
                 <!-- Indicators -->
                 <ol class="carousel-indicators">
@@ -250,8 +250,9 @@
                     <span class="sr-only">Next</span>
                 </a>
             </div>
+            </div>
             <br>
-            <div class="container-fluid">
+            <div class="container">
                 <div class="row">
                     <center><h2>Apoiadores</h2></center>
                     <div class="col-xs-4">

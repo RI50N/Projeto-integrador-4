@@ -51,6 +51,8 @@
                     break;
                 case 'cadastrarEvento':
                     var_dump($_FILES);
+                    $direcionar = 'upload.php';
+                    header("Location: {$direcionar}");
                     break;
             endswitch;
         }
@@ -60,9 +62,9 @@
         endif;
         if (isset($sistema) && $sistema->getSession()):
             ?>
-            <div class="container">
+            <div class="container-fluid">
                 <nav class="navbar  navbar-inverse ">
-                    <div class="container-fluid">
+                    
 
                         <div class="navbar-header">
                             <a class="navbar-brand" href="#">
@@ -164,7 +166,7 @@
                                 <li><a href="rolando.php">Rolando Hoje</a></li> 
                             </ul>
                         </div>
-                    </div>
+                   
                 </nav>
 
 
