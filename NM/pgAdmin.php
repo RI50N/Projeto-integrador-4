@@ -58,7 +58,7 @@
 <body>
     <?php
     require('_app/Config.inc.php');
-    
+
     $form = filter_input_array(INPUT_POST, FILTER_DEFAULT);
     if (isset($form['acao'])) {
         $anunciante = new Anunciante();
@@ -408,7 +408,9 @@
                                                                         <label for="celu">Celular/ whatsapp*</label>
                                                                         <input type="telef"  class="form-control" id="celular" name="whatsapp" placeholder="(00)0000-0000" value="<?= $anunciantes[$i]['whatsapp'] ?>"> 
                                                                     </div>
-                                                                    <button type="submit" class="btn btn-primary" href="" >Alterar</button>
+                                                                    <div class="form-group col-sm-8">
+                                                                        <button type="submit" class="btn btn-primary" href="" >Alterar</button>
+                                                                    </div>
                                                                 </form>
                                                             </div>	
                                                         </div>
