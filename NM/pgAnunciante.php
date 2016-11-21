@@ -55,6 +55,7 @@
             $anunciante = new Anunciante();
             $anunciante->setId($usuario['idUsuario']);
             $anunciante->buscaDadosAnunciante();
+            var_dump($anunciante ->getNomeResponsavel());
             ?>
             <div class="container-fluid">
                 <nav class="navbar  navbar-inverse ">
@@ -92,57 +93,57 @@
                                             <div class="container-fluid">
                                                 <form class="form-signin modal-header" action="pagAnunciante.php" method="post">
                                                     <div class="form-group col-sm-6">
-                                                        <label for="Estado">Estado*</label>
+                                                        <label for="estado">Estado*</label>
                                                         <input type="text" class="form-control" id="estado" name="estado" value="<?=$anunciante->getEstado()?>" placeholder="RS" >                                                        
                                                     </div>
                                                     <div class="form-group col-sm-6">
-                                                        <label for="Cidade">Cidade*</label>
-                                                        <input type="text" class="form-control" id="cidade" name="cidade" placeholder="Porto Alegre">                                                                      
+                                                        <label for="cidade">Cidade*</label>
+                                                        <input type="text" class="form-control" id="cidade" name="cidade" value="<?=$anunciante->getCidade()?>" placeholder="Porto Alegre">                                                                      
                                                     </div>
                                                     <div class="form-group col-sm-6">
-                                                        <label for="Endereço">Endereço*</label>
-                                                        <input type="Endereço"  class="form-control" id="Endereço" name="Endereço" placeholder="rua de tal,n°00"> 
+                                                        <label for="Endereco">Endereço*</label>
+                                                        <input type="Endereço"  class="form-control" id="Endereco" name="Endereco" value="<?=$anunciante->getEndereco()?>" placeholder="rua de tal,n°00"> 
 
                                                     </div>
                                                     <div class="form-group col-sm-6">
-                                                        <label for="Cep">Cep*</label>
-                                                        <input type="Cep"  class="form-control" id="Cep" name="Cep" placeholder="00000-000"> 
+                                                        <label for="CEP">Cep*</label>
+                                                        <input type="Cep"  class="form-control" id="CEP" name="CEP" value="<?=$anunciante->getCEP()?>" placeholder="00000-000"> 
 
                                                     </div>
                                                     <div class="form-group col-sm-6">
-                                                        <label for="Bairro">Bairro*</label>
-                                                        <input type="Bairro"  class="form-control" id="Bairro" name="Bairro" placeholder="Cafundo do Judas"> 
+                                                        <label for="bairro">Bairro*</label>
+                                                        <input type="Bairro"  class="form-control" id="bairro" name="bairro" value="<?=$anunciante->getBairro()?>" placeholder="Cafundo do Judas"> 
 
                                                     </div>
                                                     <div class="form-group col-sm-6">
-                                                        <label for="Nomer">Nome do Resposavel*</label>
-                                                        <input type="text" class="form-control" id="nomer" name="nomer">
+                                                        <label for="nomeResponsavel">Nome do Resposavel*</label>
+                                                        <input type="text" class="form-control" id="nomeResponsavel" name="nomeResponsavel" value="<?=$anunciante->getNomeResponsavel()?>">
 
                                                     </div>
                                                     <div class="form-group col-sm-6">
-                                                        <label for="sobrenomer">Sobrenome do Resposavel*</label>
-                                                        <input type="text" class="form-control" id="sobrenomer" name="sobrenomer">
+                                                        <label for="sobrenomeResponsavel">Sobrenome do Resposavel*</label>
+                                                        <input type="text" class="form-control" id="sobrenomeResponsavel" name="sobrenomeResponsavel" value="<?=$anunciante->getSobrenomeResponsavel()?>">
 
                                                     </div>
                                                     <div class="form-group col-sm-6">
                                                         <label for="E-mail">E-mail*</label>
-                                                        <input type="email"  class="form-control" id="email" name="email" placeholder="email@exemplo.com"> 
+                                                        <input type="email"  class="form-control" id="email" name="email" placeholder="email@exemplo.com" value="<?=$anunciante->getEmail()?>"> 
                                                     </div>
                                                     <div class="form-group col-sm-6">
                                                         <label for="telef">Telefone de contato*</label>
-                                                        <input type="telef"  class="form-control" id="telef" name="telef" placeholder="(00)0000-0000"> 
+                                                        <input type="telef"  class="form-control" id="telef" name="telef" placeholder="(00)0000-0000" value="<?=$anunciante->getTelefoneContato()?>" > 
                                                     </div>
                                                     <div class="form-group col-sm-6">
                                                         <label for="celu">Celular/ What's App*</label>
-                                                        <input type="telef"  class="form-control" id="celu" name="celu" placeholder="(00)0000-0000"> 
+                                                        <input type="telef"  class="form-control" id="celu" name="celu" placeholder="(00)0000-0000" value="<?=$anunciante->getWhatsapp()?>"> 
                                                     </div>
                                                     <div class="form-group col-sm-6">
                                                         <label for="senha">Nova Senha*</label>
-                                                        <input type="password" name="senha" id="senha" class="form-control" placeholder="Senha" required="" name="senha">
+                                                        <input type="password" name="senha" id="senha" class="form-control" placeholder="Senha" required="">
                                                     </div>
                                                     <div class="form-group col-sm-6">
                                                         <label for="senha">Confirmar Senha*</label>
-                                                        <input type="password" name="senha" id="senha" class="form-control" placeholder="Senha" required="" name="senha">
+                                                        <input type="password" name="senha" id="senha" class="form-control" placeholder="Senha" required="">
                                                     </div>
                                                     <br>
                                                     <div class="form-group col-sm-8">
