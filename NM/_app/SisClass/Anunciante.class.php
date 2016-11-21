@@ -32,8 +32,63 @@ class Anunciante {
     function getIdAnunciante() {
         return $this->idAnunciante;
     }
+    function getNomeEmpresa() {
+        return $this->nomeEmpresa;
+    }
 
-        /**
+    function getNomeFantasia() {
+        return $this->nomeFantasia;
+    }
+
+    function getCNPJ() {
+        return $this->CNPJ;
+    }
+
+    function getEndereco() {
+        return $this->endereco;
+    }
+
+    function getEstado() {
+        return $this->estado;
+    }
+
+    function getCidade() {
+        return $this->cidade;
+    }
+
+    function getCEP() {
+        return $this->CEP;
+    }
+
+    function getBairro() {
+        return $this->bairro;
+    }
+
+    function getNomeResponsavel() {
+        return $this->nomeResponsavel;
+    }
+
+    function getSobrenomeResponsavel() {
+        return $this->sobrenomeResponsavel;
+    }
+
+    function getEmail() {
+        return $this->email;
+    }
+
+    function getTelefoneContato() {
+        return $this->telefoneContato;
+    }
+
+    function getWhatsapp() {
+        return $this->whatsapp;
+    }
+
+    function getIdUsuario() {
+        return $this->idUsuario;
+    }
+
+            /**
      * <b>populaDados:</b> Popula os dados da classe a partir de um array associativo
      * @param array $dadosAnunciante = dados do anunciante
      * Obs.: O campo senha só será preenchido quando mandado pela interface.
