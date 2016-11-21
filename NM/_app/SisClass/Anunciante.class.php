@@ -8,6 +8,7 @@
  */
 class Anunciante {
 
+    private $idAnunciante;
     private $nomeEmpresa;
     private $nomeFantasia;
     private $CNPJ;
@@ -27,13 +28,18 @@ class Anunciante {
     public function setId($id) {
         $this->idUsuario = $id;
     }
+    
+    function getIdAnunciante() {
+        return $this->idAnunciante;
+    }
 
-    /**
+        /**
      * <b>populaDados:</b> Popula os dados da classe a partir de um array associativo
      * @param array $dadosAnunciante = dados do anunciante
      * Obs.: O campo senha só será preenchido quando mandado pela interface.
      */
     public function populaDados(array $dadosAnunciante) {
+        $this->idAnunciante = (isset($dadosAnunciante['id']) ? $dadosAnunciante['id'] : null);
         $this->CEP = $dadosAnunciante['cep'];
         $this->CNPJ = $dadosAnunciante['cnpj'];
         $this->endereco = $dadosAnunciante['endereco'];
@@ -45,9 +51,7 @@ class Anunciante {
         $this->sobrenomeResponsavel = $dadosAnunciante['sobrenomeResponsavel'];
         $this->estado = $dadosAnunciante['estado'];
         $this->cidade = $dadosAnunciante['cidade'];
-        if (isset($dadosAnunciante['senha'])):
-            $this->senha = $dadosAnunciante['senha'];
-        endif;
+        $this->senha = (isset($dadosAnunciante['senha']) ? $dadosAnunciante['senha'] : null);
         $this->telefoneContato = $dadosAnunciante['telefoneContato'];
         $this->whatsapp = $dadosAnunciante['whatsapp'];
     }
@@ -64,7 +68,7 @@ class Anunciante {
 
         if ($this->idUsuario):
             $Dados = [
-                'id_user' => $this->idUsuario, 
+                'id_user' => $this->idUsuario,
                 'nomeEmpresa' => $this->nomeEmpresa,
                 'nomeFantasia' => $this->nomeFantasia,
                 'CNPJ' => $this->CNPJ,
@@ -122,7 +126,7 @@ class Anunciante {
         $update = new Update();
         if ($this->idUsuario):
             $DadosLogin = ['ativo' => 1];
-            $update->ExeUpdate('nm_user', $DadosLogin, "WHERE id = :idUsuario","idUsuario={$this->idUsuario}");
+            $update->ExeUpdate('nm_user', $DadosLogin, "WHERE id = :idUsuario", "idUsuario={$this->idUsuario}");
         endif;
     }
 
@@ -130,25 +134,28 @@ class Anunciante {
         $update = new Update();
         if ($this->idUsuario):
             $DadosLogin = ['ativo' => 0];
-            $update->ExeUpdate('nm_user', $DadosLogin, "WHERE id = :idUsuario","idUsuario={$this->idUsuario}");
+            $update->ExeUpdate('nm_user', $DadosLogin, "WHERE id = :idUsuario", "idUsuario={$this->idUsuario}");
         endif;
     }
 
     public function buscaDadosAnunciante() {
         $listarAnunciantes = new Read();
-        if (isset($this->id)):
-            $listarAnunciantes->ExeRead('nm_anunciante INNER JOIN nm_user ON nm_user.id = nm_anunciante.id_usuario', ["id", "email", "", "", "", "", "", "", "", "", "", ""], 'WHERE nm_user.id = :id_usuario', "id_usuario={$this->id}");
+        if (isset($this->idUsuario)):
+            $listarAnunciantes->ExeRead('nm_anunciante INNER JOIN nm_user ON nm_user.id = nm_anunciante.id_user', 'WHERE nm_user.id = :id_usuario', "id_usuario={$this->idUsuario}", array('nm_anunciante.id', 'cep', 'cnpj', 'endereco', 'bairro', 'email', 'nomeEmpresa', 'nomeFantasia', 'nomeResponsavel', 'sobrenomeResponsavel', 'estado', 'cidade', 'telefoneContato', 'whatsapp'));
+            $anunciante = $listarAnunciantes->getResult();
+            $this->populaDados($anunciante[0]);
         else:
             $listarAnunciantes->ExeRead('nm_anunciante INNER JOIN nm_user ON nm_user.id = nm_anunciante.id_user ');
+            return $listarAnunciantes->getResult();
         endif;
-        return $listarAnunciantes->getResult();
     }
-    
-    public function deletaAnunciante(){
+
+    public function deletaAnunciante() {
         $deletaAnunciante = new Delete();
         $deletaAnunciante->ExeDelete('nm_user', 'WHERE id = :id', "id={$this->idUsuario}");
-        if($deletaAnunciante->getResult()){
+        if ($deletaAnunciante->getResult()) {
             $deletaAnunciante->ExeDelete('nm_anunciante', 'WHERE id_user = :id', "id={$this->idUsuario}");
         }
-    } 
+    }
+
 }

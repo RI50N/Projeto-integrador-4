@@ -5,13 +5,11 @@
         <group>
             <file>file:/C:/xampp/htdocs/Projeto-integrador-4/NM/_app/Conn/Read.class.php</file>
             <file>file:/C:/xampp/htdocs/Projeto-integrador-4/NM/_app/SisClass/Anunciante.class.php</file>
-            <file>file:/C:/xampp/htdocs/Projeto-integrador-4/NM/_app/Conn/Create.class.php</file>
+            <file>file:/C:/xampp/htdocs/Projeto-integrador-4/NM/_app/auxiliares/Upload.class.php</file>
+            <file>file:/C:/xampp/htdocs/Projeto-integrador-4/NM/_app/auxiliares/Validar.class.php</file>
             <file>file:/C:/xampp/htdocs/Projeto-integrador-4/NM/_app/SisClass/Sistema.class.php</file>
-            <file>file:/C:/xampp/htdocs/Projeto-integrador-4/NM/index.php</file>
-            <file>file:/C:/xampp/htdocs/Projeto-integrador-4/NM/_app/Conn/Conn.class.php</file>
-            <file>file:/C:/xampp/htdocs/Projeto-integrador-4/NM/_app/Config.inc.php</file>
             <file>file:/C:/xampp/htdocs/Projeto-integrador-4/NM/pgAnunciante.php</file>
-            <file>file:/C:/xampp/htdocs/Projeto-integrador-4/NM/pgAdmin.php</file>
+            <file>file:/C:/xampp/htdocs/Projeto-integrador-4/NM/_app/SisClass/Evento.class.php</file>
         </group>
     </open-files>
 </project-private>

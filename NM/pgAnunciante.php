@@ -25,7 +25,7 @@
         <style>
             div.scroll {
                 background-color:  #1E88E5;
-                width: 500px auto;
+                width: 500px;
                 height: 600px;                
                 overflow-y: scroll;
             }
@@ -33,34 +33,28 @@
 
         <?php
         require('_app/Config.inc.php');
-        if (isset($_POST['acao'])) {
-            switch ($_POST['acao']):
-                case 'alterarStatus':
-                    $anunciante = new Anunciante();
-                    $anunciante->setId($_POST['idAnunciante']);
-                    if ($_POST['status'] == 1):
-                        $anunciante->ativa();
-                    elseif ($_POST['status'] == 2):
-                        $anunciante->desativa();
-                    endif;
-                    break;
+        $form = filter_input_array(INPUT_POST, FILTER_DEFAULT);
+        if (isset($form['acao'])) {
+            switch ($form['acao']):
                 case 'logout':
+                    $sistema = unserialize($_SESSION['sistema']);
+                    $sistema->logOut();
                     unset($_SESSION['sistema']);
                     $direcionar = 'index.php';
                     header("Location: {$direcionar}");
                     break;
                 case 'cadastrarEvento':
-                    var_dump($_FILES);
-                    $direcionar = 'upload.php';
-                    header("Location: {$direcionar}");
+                    $evento = new Evento();
+                    $evento->popularDadosEvento($form,$_FILES['flyer']);
+                    $evento->cadastraEvento();
                     break;
             endswitch;
         }
-        /** @var Sistema */
-        if (isset($_SESSION['sistema'])):
-            $sistema = unserialize($_SESSION['sistema']);
-        endif;
-        if (isset($sistema) && $sistema->getSession()):
+        $usuario = Validar::UsuarioOnline();
+        if ($usuario['logado']):
+            $anunciante = new Anunciante();
+            $anunciante->setId($usuario['idUsuario']);
+            $anunciante->buscaDadosAnunciante();
             ?>
             <div class="container-fluid">
                 <nav class="navbar  navbar-inverse ">
@@ -152,7 +146,7 @@
                                                     </div>
                                                     <br>
                                                     <div class="form-group col-sm-8">
-                                                        <button type="submit" class="btn btn-primary" href="" >Cadastrar-se</button>
+                                                        <button type="submit" class="btn btn-primary" href="" >Alterar</button>
                                                     </div>
                                                 </form> 
                                             </div>
@@ -238,34 +232,32 @@
                             <p><a href="#">Link</a></p>
                         </div>
                         <div class="col-sm-7">
-
                             <div class="row">
                                 <div class="col-sm-12">          
                                     <div class="panel panel-default text-left">             
-
                                         <div class="panel-body">
-
                                             <form enctype="multipart/form-data"  method="post" >
                                                 <input type="hidden" name="acao" value="cadastrarEvento">
+                                                <input type="hidden" name="id_anunciante" value="<?=$anunciante->getIdAnunciante()?>">
                                                 <div class="form-group col-sm-6">
                                                     <label for="NomeEvento">Nome do evento*</label>
-                                                    <input type="NomeEvento"  class="form-control" id="nomeEvento" name="nomeEvento" placeholder="OFF"> 
+                                                    <input type="NomeEvento"  class="form-control" id="nomeEvento" name="nome_evento"> 
 
                                                 </div>
                                                 <div class="form-group col-sm-6">
                                                     <label for="Horario">Horário de funcionamento*</label>
-                                                    <input type="Horario"  class="form-control" id="horario" name="horario" placeholder="19h 30min"> 
+                                                    <input type="time"  class="form-control" id="horario" name="horario"> 
 
                                                 </div>
                                                 <div class="form-group col-sm-6">
                                                     <label for="Data">Data*</label>
-                                                    <input type="Data"  class="form-control" id="Data" name="Data" placeholder="01/05/2016"> 
+                                                    <input type="date"  class="form-control" id="Data" name="Data"> 
 
                                                 </div>
 
                                                 <div class="form-group col-sm-6">                                                                                                      
                                                     <label>Selecione a Imagem*</label>
-                                                    <input id="file-3" type="file" name="arquivo">
+                                                    <input id="file-3" type="file" name="flyer">
                                                 </div>
 
                                                 <br>
@@ -372,7 +364,7 @@
             </div>
             <?php
         else:
-            echo 'não esta logado';
+            echo $usuario['msg'];
         endif;
         ?>
         <script>
@@ -396,7 +388,7 @@
                 maxFileSize: 1000,
                 maxFilesNum: 10,
 //allowedFileTypes: ['image', 'video', 'flash'],
-                slugCallback: function(filename) {
+                slugCallback: function (filename) {
                     return filename.replace('(', '_').replace(']', '_');
                 }
             });
@@ -415,14 +407,14 @@
             $("#file-4").fileinput({
                 uploadExtraData: {kvId: '10'}
             });
-            $(".btn-warning").on('click', function() {
+            $(".btn-warning").on('click', function () {
                 if ($('#file-4').attr('disabled')) {
                     $('#file-4').fileinput('enable');
                 } else {
                     $('#file-4').fileinput('disable');
                 }
             });
-            $(".btn-info").on('click', function() {
+            $(".btn-info").on('click', function () {
                 $('#file-4').fileinput('refresh', {previewClass: 'bg-info'});
             });
             /*
@@ -433,7 +425,7 @@
              alert('File browse clicked for #file-4');
              });
              */
-            $(document).ready(function() {
+            $(document).ready(function () {
                 $("#test-upload").fileinput({
                     'showPreview': false,
                     'allowedFileExtensions': ['jpg', 'png', 'gif'],
@@ -447,5 +439,3 @@
             });
         </script>
     </body>
-    Contact GitHub API Training Shop Blog About
-    © 2016 GitHub, Inc. Terms Privacy Security Status Help

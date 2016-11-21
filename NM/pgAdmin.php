@@ -74,6 +74,8 @@
                 endif;
                 break;
             case 'logout':
+                $sistema = unserialize($_SESSION['sistema']);
+                $sistema->logOut();
                 unset($_SESSION['sistema']);
                 $direcionar = 'index.php';
                 header("Location: {$direcionar}");
@@ -91,12 +93,8 @@
 
         endswitch;
     }
-    /** @var Sistema */
-    if (isset($_SESSION['sistema'])):
-        $sistema = unserialize($_SESSION['sistema']);
-    endif;
-
-    if (isset($sistema) && $sistema->getSession()):
+    $usuario = Validar::UsuarioOnline();
+    if ($usuario['logado']):
         ?>
         <div class="container-fluid">
             <nav class="navbar  navbar-inverse ">
@@ -407,7 +405,7 @@
         </div>
         <?php
     else:
-        echo 'não esta logado';
+        echo $usuario['msg'];
     endif;
     ?>
 </body>

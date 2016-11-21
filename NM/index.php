@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Night Mess </title>
         <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/reset.css" rel="stylesheet">
         <link rel="icon" class="img-circle" href="img/bussola.png">
         <script src="js/jquery-3.1.1.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
@@ -27,13 +28,13 @@
                     break;
                 case 'login':
                     $sistema = new Sistema();
-                    $sistema->efetuarLogin($_POST['login'], $_POST['senha']);
+                    $sistema->efetuarLogin($_POST['login'], $_POST['senha']);               
                     if ($sistema->getSession()):
                         if ($sistema->getTipo() == 0):
                             $direcionar = 'pgAnunciante.php';
                         elseif ($sistema->getTipo() == 1):
                             $direcionar = 'pgAdmin.php';
-                        endif;
+                        endif; 
                         if ($direcionar):
                             $_SESSION['sistema'] = serialize($sistema);
                             header("Location: {$direcionar}");

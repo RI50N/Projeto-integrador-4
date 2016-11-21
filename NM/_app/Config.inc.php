@@ -1,4 +1,6 @@
 <?php
+define('HOME', 'http://localhost/Projeto-integrador-4/NM/');
+
 //Session
 session_start();
 
@@ -11,7 +13,7 @@ define('DBSA', 'nmdb');
 // AUTO LOAD DE CLASSES ####################
 function __autoload($Class) {
 
-    $cDir = ['Conn','SisClass'];
+    $cDir = ['Conn','SisClass','auxiliares'];
     $iDir = null;
 
     foreach ($cDir as $dirName):
@@ -37,7 +39,7 @@ define('NM_ERROR', 'error');
 //NMErro :: Exibe erros lançados :: Front
 function NMErro($ErrMsg, $ErrNo, $ErrDie = null) {
     $CssClass = ($ErrNo == E_USER_NOTICE ? NM_INFOR : ($ErrNo == E_USER_WARNING ? NM_ALERT : ($ErrNo == E_USER_ERROR ? NM_ERROR : $ErrNo)));
-    echo "<p class=\"trigger {$CssClass}\">{$ErrMsg}<span class=\"ajax_close\"></span></p>";
+    echo "<p class=\"trigger {$CssClass}\">{$ErrMsg}</p>";
 
     if ($ErrDie):
         die;
