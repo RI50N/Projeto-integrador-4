@@ -9,7 +9,8 @@
         <link rel="icon" class="img-circle" href="img/bussola.png">
         <script src="js/jquery-3.1.1.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
-        <script src="sisJs/index.js"></script>        
+        <script src="sisJs/index.js"></script>   
+        <script src="sisJs/comum.js"></script>
         <style>
             #brand-image{
                 height: 25px;

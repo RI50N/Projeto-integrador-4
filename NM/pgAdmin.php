@@ -86,9 +86,15 @@
             case 'alterarStatus':
                 $anunciante->setId($form['idAnunciante']);
                 if ($form['status'] == 1):
-                    $anunciante->ativa();
+                    $result = $anunciante->ativa();
                 elseif ($form['status'] == 2):
-                    $anunciante->desativa();
+                    $result = $anunciante->desativa();
+                endif;
+
+                if ($result):
+                    $msg = 'Status alterado com sucesso';
+                else:
+                    $msg = 'Ops! um erro ocoreu e o status não foi alterado';
                 endif;
                 break;
             case 'logout':
@@ -99,9 +105,25 @@
                 header("Location: {$direcionar}");
                 break;
             case 'alterarDadosAnunciante':
-                $anunciante->setId($form['idUsuario']);
-                $anunciante->populaDados($form);
-                $anunciante->updateDadosAnunciante();
+                var_dump($form);
+                if (!empty($form['cep']) &&
+                        !empty($form['cnpj']) &&
+                        !empty($form['endereco']) &&
+                        !empty($form['bairro']) &&
+                        !empty($form['email']) &&
+                        !empty($form['nomeEmpresa']) &&
+                        !empty($form['nomeFantasia']) &&
+                        !empty($form['nomeResponsavel']) &&
+                        !empty($form['estado']) &&
+                        !empty($form['cidade']) &&
+                        !empty($form['senha']) &&
+                        !empty($form['telefoneContato'])):
+                    $anunciante->setId($form['idUsuario']);
+                    $anunciante->populaDados($form);
+                    $msg = $anunciante->updateDadosAnunciante();
+                else:
+                    $msg = 'Campo obrigatorio não preenchido';
+                endif;
                 break;
             case 'excluirAnunciante':
                 $anunciante->setId($form['idUsuario']);

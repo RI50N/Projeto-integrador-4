@@ -1,9 +1,5 @@
 $(document).ready(function () {
-    //mostra mensagem de aviso
-    if ($('#aviso').length) {
-        $('#msgAviso').modal('toggle');
-    }
-
+    
     // Activate Carousel
     $("#myCarousel").carousel();
 

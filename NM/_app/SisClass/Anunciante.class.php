@@ -163,9 +163,7 @@ class Anunciante {
         ];
 
         $update->ExeUpdate('nm_anunciante', $Dados, "WHERE id_user = :id", "id={$this->idUsuario}");
-        $this->idUsuario = $update->getResult();
-        var_dump($update->getResult());
-        if ($this->idUsuario):
+        if ($update->getResult()):
             $DadosLogin = ['email' => $this->email,
                 'senha' => $this->senha,
             ];
@@ -182,6 +180,11 @@ class Anunciante {
         if ($this->idUsuario):
             $DadosLogin = ['ativo' => 1];
             $update->ExeUpdate('nm_user', $DadosLogin, "WHERE id = :idUsuario", "idUsuario={$this->idUsuario}");
+            if($update->getResult()):
+                return true;
+            else:
+                return false;
+            endif;
         endif;
     }
 
@@ -190,6 +193,11 @@ class Anunciante {
         if ($this->idUsuario):
             $DadosLogin = ['ativo' => 0];
             $update->ExeUpdate('nm_user', $DadosLogin, "WHERE id = :idUsuario", "idUsuario={$this->idUsuario}");
+            if($update->getResult()):
+                return true;
+            else:
+                return false;
+            endif;
         endif;
     }
 
