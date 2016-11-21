@@ -260,11 +260,11 @@
                                                     <input id="file-3" type="file" name="flyer">
                                                 </div>
 
-                                                <br>
+                                                <div class="form-group col-sm-6">
                                                 <label>Descrição do evento*: </label>
                                                 <br/>
                                                 <textarea type="text" cols="30" rows="5" name="descricao" id="descricao" placeholder="Descreva o evento." ></textarea>
-                                                <br/>
+                                                </div>
                                                 <br/>
 
                                                 <div class="form-group col-sm-12">
