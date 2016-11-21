@@ -28,4 +28,8 @@ $(document).ready(function () {
     $(".right").click(function () {
         $("#myCarousel").carousel("next");
     });
+
+    $("#CNPJ").focusout(function () {
+        alert('23123');
+    })
 });
