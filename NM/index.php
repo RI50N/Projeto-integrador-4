@@ -19,16 +19,33 @@
     <body>
         <?php
         require('_app/Config.inc.php');
-        if (isset($_POST['acao'])) {
-            switch ($_POST['acao']):
+        
+        $form = filter_input_array(INPUT_POST, FILTER_DEFAULT);
+        if (isset($form['acao'])) {
+            switch ($form['acao']):
                 case 'preCadastro':
                     $anunciante = new Anunciante();
-                    $anunciante->populaDados($_POST);
-                    $msg = $anunciante->cadastraDadosAnunciante();
+                    if (!empty($form['cep']) &&
+                            !empty($form['cnpj']) &&
+                            !empty($form['endereco']) &&
+                            !empty($form['bairro']) &&
+                            !empty($form['email']) &&
+                            !empty($form['nomeEmpresa']) &&
+                            !empty($form['nomeFantasia']) &&
+                            !empty($form['nomeResponsavel']) &&
+                            !empty($form['estado']) &&
+                            !empty($form['cidade']) &&
+                            !empty($form['senha']) &&
+                            !empty($form['telefoneContato'])):
+                        $anunciante->populaDados($form);
+                        $msg = $anunciante->cadastraDadosAnunciante();
+                    else:
+                        $msg = 'Campo obrigatorio não preenchido';
+                    endif;
                     break;
                 case 'login':
                     $sistema = new Sistema();
-                    $sistema->efetuarLogin($_POST['login'], $_POST['senha']);
+                    $sistema->efetuarLogin($form['login'], $form['senha']);
                     if ($sistema->getSession()):
                         if ($sistema->getTipo() == 0):
                             $direcionar = 'pgAnunciante.php';
@@ -39,10 +56,12 @@
                             $_SESSION['sistema'] = serialize($sistema);
                             header("Location: {$direcionar}");
                         endif;
+                    else:
+                        $msg = 'usuario ou senha invalido';
                     endif;
                     break;
-
             endswitch;
+            
         }
         ?>  
         <div class="container-fluid">

@@ -62,8 +62,24 @@
         $anunciante = new Anunciante();
         switch ($_POST['acao']):
             case 'preCadastro':
-                $anunciante->populaDados($_POST);
-                $msg = $anunciante->cadastraDadosAnunciante();
+                $anunciante = new Anunciante();
+                if (!empty($form['cep']) &&
+                        !empty($form['cnpj']) &&
+                        !empty($form['endereco']) &&
+                        !empty($form['bairro']) &&
+                        !empty($form['email']) &&
+                        !empty($form['nomeEmpresa']) &&
+                        !empty($form['nomeFantasia']) &&
+                        !empty($form['nomeResponsavel']) &&
+                        !empty($form['estado']) &&
+                        !empty($form['cidade']) &&
+                        !empty($form['senha']) &&
+                        !empty($form['telefoneContato'])):
+                    $anunciante->populaDados($form);
+                    $msg = $anunciante->cadastraDadosAnunciante();
+                else:
+                    $msg = 'Campo obrigatorio não preenchido';
+                endif;
                 break;
             case 'alterarStatus':
                 $anunciante->setId($_POST['idAnunciante']);
