@@ -58,11 +58,9 @@
 <body>
     <?php
     require('_app/Config.inc.php');
-    
-    $form = filter_input_array(INPUT_POST, FILTER_DEFAULT);
-    if (isset($form['acao'])) {
+    if (isset($_POST['acao'])) {
         $anunciante = new Anunciante();
-        switch ($form['acao']):
+        switch ($_POST['acao']):
             case 'preCadastro':
                 $anunciante = new Anunciante();
                 if (!empty($form['cep']) &&
@@ -84,10 +82,10 @@
                 endif;
                 break;
             case 'alterarStatus':
-                $anunciante->setId($form['idAnunciante']);
-                if ($form['status'] == 1):
+                $anunciante->setId($_POST['idAnunciante']);
+                if ($_POST['status'] == 1):
                     $anunciante->ativa();
-                elseif ($form['status'] == 2):
+                elseif ($_POST['status'] == 2):
                     $anunciante->desativa();
                 endif;
                 break;
@@ -99,12 +97,12 @@
                 header("Location: {$direcionar}");
                 break;
             case 'alterarDadosAnunciante':
-                $anunciante->setId($form['idUsuario']);
-                $anunciante->populaDados($form);
+                $anunciante->setId($_POST['idUsuario']);
+                $anunciante->populaDados($_POST);
                 $anunciante->updateDadosAnunciante();
                 break;
             case 'excluirAnunciante':
-                $anunciante->setId($form['idUsuario']);
+                $anunciante->setId($_POST['idUsuario']);
                 $anunciante->deletaAnunciante();
                 break;
 
@@ -129,37 +127,7 @@
                         <span class="icon-bar"></span>
                     </button>
                 </div>
-                <div class="modal fade" id="msgAviso" role="dialog">
-                    <div class="modal-dialog">
 
-                        <div class="modal-content">
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="col-sm-6">
-                                        <h4>Aviso</h4>
-                                    </div>
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                    </div>
-                                </div>
-
-
-                                <div class="col-sm-12">                                
-                                    <div class="modal-body">
-                                        <div class="container-fluid">
-                                            <span><?= $msg ?></span>
-                                            <?php if ($msg != "") {
-                                                ?>
-                                                <span id="aviso"></span>
-                                            <?php }
-                                            ?>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <div class="collapse navbar-collapse" id="myNavbar">
                     <ul class="nav navbar-nav navbar-right">
                         <li><a data-toggle="modal" data-target="#cadastro"><span class="glyphicon glyphicon-user"></span> Pré-Cadastro</a></li>

@@ -93,7 +93,7 @@
                                                 <form class="form-signin modal-header" action="pagAnunciante.php" method="post">
                                                     <div class="form-group col-sm-6">
                                                         <label for="Estado">Estado*</label>
-                                                        <input type="text" class="form-control" id="estado" name="estado" value="<?=$anunciante->getEstado()?>" placeholder="RS" >                                                        
+                                                        <input type="text" class="form-control" id="estado" name="estado" placeholder="RS" >                                                        
                                                     </div>
                                                     <div class="form-group col-sm-6">
                                                         <label for="Cidade">Cidade*</label>
