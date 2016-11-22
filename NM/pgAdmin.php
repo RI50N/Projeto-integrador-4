@@ -127,7 +127,7 @@
                 break;
             case 'excluirAnunciante':
                 $anunciante->setId($form['idUsuario']);
-                $anunciante->deletaAnunciante();
+                $msg = $anunciante->deletaAnunciante();
                 break;
 
 

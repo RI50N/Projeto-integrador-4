@@ -28,10 +28,11 @@ class Anunciante {
     public function setId($id) {
         $this->idUsuario = $id;
     }
-    
+
     function getIdAnunciante() {
         return $this->idAnunciante;
     }
+
     function getNomeEmpresa() {
         return $this->nomeEmpresa;
     }
@@ -88,7 +89,7 @@ class Anunciante {
         return $this->idUsuario;
     }
 
-            /**
+    /**
      * <b>populaDados:</b> Popula os dados da classe a partir de um array associativo
      * @param array $dadosAnunciante = dados do anunciante
      * Obs.: O campo senha só será preenchido quando mandado pela interface.
@@ -180,7 +181,7 @@ class Anunciante {
         if ($this->idUsuario):
             $DadosLogin = ['ativo' => 1];
             $update->ExeUpdate('nm_user', $DadosLogin, "WHERE id = :idUsuario", "idUsuario={$this->idUsuario}");
-            if($update->getResult()):
+            if ($update->getResult()):
                 return true;
             else:
                 return false;
@@ -193,7 +194,7 @@ class Anunciante {
         if ($this->idUsuario):
             $DadosLogin = ['ativo' => 0];
             $update->ExeUpdate('nm_user', $DadosLogin, "WHERE id = :idUsuario", "idUsuario={$this->idUsuario}");
-            if($update->getResult()):
+            if ($update->getResult()):
                 return true;
             else:
                 return false;
@@ -216,9 +217,12 @@ class Anunciante {
     public function deletaAnunciante() {
         $deletaAnunciante = new Delete();
         $deletaAnunciante->ExeDelete('nm_user', 'WHERE id = :id', "id={$this->idUsuario}");
-        if ($deletaAnunciante->getResult()) {
+        if ($deletaAnunciante->getResult()):
             $deletaAnunciante->ExeDelete('nm_anunciante', 'WHERE id_user = :id', "id={$this->idUsuario}");
-        }
+            $msg = 'Anunciante excluido com sucesso';
+        else:
+            $msg = 'Ops, ocorreu alguma falha ao excluir o anunciante';
+        endif;
     }
 
 }
