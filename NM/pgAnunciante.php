@@ -43,7 +43,6 @@
                     header("Location: {$direcionar}");
                     break;
                 case 'cadastrarEvento':
-                    var_dump($form);
                     $evento = new Evento();
                     $evento->popularDadosEvento($form, $_FILES['flyer']);
                     $evento->cadastraEvento();
@@ -54,7 +53,8 @@
         if ($usuario['logado']):
             $anunciante = new Anunciante();
             $anunciante->setId($usuario['idUsuario']);
-            $anunciante->buscaDadosAnunciante();            
+            $anunciante->buscaDadosAnunciante();
+            $eventosAnunciante = $anunciante->listarEventosAnunciante();
             ?>
             <div class="container-fluid">
                 <nav class="navbar  navbar-inverse ">
@@ -190,7 +190,7 @@
                                     <div class="kv-avatar center-block" style="width:200px">
                                         <input id="avatar-1" name="avatar-1" type="file" class="file-loading">
                                     </div>
-                                    <!-- include other inputs if needed and include a form submit (save) button -->
+                                <!-- include other inputs if needed and include a form submit (save) button -->
                                 <!--/form>
                                 <!-- your server code `avatar_upload.php` will receive `$_FILES['avatar']` on form submission -->
 
@@ -244,7 +244,7 @@
                                                     <input type="NomeEvento"  class="form-control" id="nomeEvento" name="nome_evento"> 
 
                                                 </div>
-                                                
+
                                                 <div class="form-group col-sm-6">
                                                     <label for="Data">Data e harário de funcionamento*</label>
                                                     <input type="datetime-local"  class="form-control" id="data" name="data"> 
@@ -274,52 +274,45 @@
 
                             <div class="scroll col-sm-12">
                                 <div class="row">                                   
-                                            <div class="well">
-                                                <p>Exemplo</p>
-                                                <div class="container-fluid">
-                                                    <div class="col-xs-12">
-                                                        <img  class="img-responsive" src="img/b1.jpg" >
+
+
+                                    <?php
+                                    for ($i = 0; $i < count($eventosAnunciante); $i++):
+                                        ?>
+                                        <div class="well">
+                                            <div class="container-fluid">
+                                                <div class="col-xs-12">
+                                                    <?= Validar::Image($eventosAnunciante[$i]['id'], $eventosAnunciante[$i]['nome_evento'], 1024, 600) ?>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-6">
+                                                        <p>Evento: <?= $eventosAnunciante[$i]['nome_evento'] ?></p>
                                                     </div>
-                                                    <div class="row">
-                                                        <div class="col-xs-6">
-                                                            <p>Evento: </p>
+                                                    <div class="col-xs-6">
+                                                        <p>Data/Horário: <?= $eventosAnunciante[$i]['data'] ?></p>
+                                                    </div>
+                                                    <div class="col-xs-12">
+                                                        <div class="col-xs-6">                                                        
+                                                            <button type="button" class="btn btn-warning">Alterar</button>
                                                         </div>
-                                                        <div class="col-xs-6">
-                                                            <p>Horário: </p>
-                                                        </div>
-                                                        <div class="col-xs-6">
-                                                            <p>Data: </p>
-                                                        </div>
-                                                        <div class="col-xs-12">
-                                                            <div class="col-xs-6">                                                        
-                                                                <button type="button" class="btn btn-warning">Alterar</button>
-                                                            </div>
-                                                            <div class="col-xs-6">                                                        
-                                                                <button type="button" class="btn btn-danger">Cancelar</button>
-                                                            </div>
+                                                        <div class="col-xs-6">                                                        
+                                                            <button type="button" class="btn btn-danger">Cancelar</button>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="well">
-                                                <p>Just Forgot that I had to mention something about someone to someone about how I forgot something, but now I forgot it. Ahh, forget it! Or wait. I remember.... no I don't.</p>
-                                            </div>
-                                            <div class="well">
-                                                <p>Just Forgot that I had to mention something about someone to someone about how I forgot something, but now I forgot it. Ahh, forget it! Or wait. I remember.... no I don't.</p>
-                                            </div>
-                                            <div class="well">
-                                                <p>Just Forgot that I had to mention something about someone to someone about how I forgot something, but now I forgot it. Ahh, forget it! Or wait. I remember.... no I don't.</p>
-                                            </div>
-                                            <div class="well">
-                                                <p>Just Forgot that I had to mention something about someone to someone about how I forgot something, but now I forgot it. Ahh, forget it! Or wait. I remember.... no I don't.</p>
-                                            </div>
-                                            <div class="well">
-                                                <p>Just Forgot that I had to mention something about someone to someone about how I forgot something, but now I forgot it. Ahh, forget it! Or wait. I remember.... no I don't.</p>
-                                            </div>
                                         </div>
-                                    </div>
+                                        <?php
+                                    endfor;
+                                    ?>
+
+
                                 </div>
-                            
+
+
+                            </div>
+                        </div>
+
                         <div class="col-sm-2 well">
                             <div class="thumbnail">
                                 <p>Proximos Eventos:</p>
@@ -378,7 +371,7 @@
                 maxFileSize: 1000,
                 maxFilesNum: 10,
 //allowedFileTypes: ['image', 'video', 'flash'],
-                slugCallback: function(filename) {
+                slugCallback: function (filename) {
                     return filename.replace('(', '_').replace(']', '_');
                 }
             });
@@ -397,14 +390,14 @@
             $("#file-4").fileinput({
                 uploadExtraData: {kvId: '10'}
             });
-            $(".btn-warning").on('click', function() {
+            $(".btn-warning").on('click', function () {
                 if ($('#file-4').attr('disabled')) {
                     $('#file-4').fileinput('enable');
                 } else {
                     $('#file-4').fileinput('disable');
                 }
             });
-            $(".btn-info").on('click', function() {
+            $(".btn-info").on('click', function () {
                 $('#file-4').fileinput('refresh', {previewClass: 'bg-info'});
             });
             /*
@@ -415,7 +408,7 @@
              alert('File browse clicked for #file-4');
              });
              */
-            $(document).ready(function() {
+            $(document).ready(function () {
                 $("#test-upload").fileinput({
                     'showPreview': false,
                     'allowedFileExtensions': ['jpg', 'png', 'gif'],

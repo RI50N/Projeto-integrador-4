@@ -224,5 +224,11 @@ class Anunciante {
             $msg = 'Ops, ocorreu alguma falha ao excluir o anunciante';
         endif;
     }
+    
+    public function listarEventosAnunciante() {
+        $readEventos = new Read;
+        $readEventos->ExeRead('nm_evento', 'WHERE id_anunciante = :id', "id={$this->idAnunciante}");
+        return $readEventos->getResult();
+    }
 
 }

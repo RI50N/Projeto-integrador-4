@@ -35,6 +35,7 @@ class Validar {
     }
 
     public static function Data($data) {
+
         self::$Format = explode(' ', $data);
         self::$Data = explode('/', self::$Format[0]);
 
@@ -64,15 +65,15 @@ class Validar {
     public static function UsuarioOnline() {
         $result['logado'] = TRUE;
         $result['msg'] = '';
-        $result['idUsuario']= null;
-        
+        $result['idUsuario'] = null;
+
         $now = date('Y-m-d H:i:s');
         $deleteUserOnline = new Delete;
         $deleteUserOnline->ExeDelete('nm_session', "WHERE timeout < :now", "now={$now}");
-        
+
         if (isset($_SESSION['sistema'])):
             $sistema = unserialize($_SESSION['sistema']);
-            $result['idUsuario']= $sistema->getIdUsuario();
+            $result['idUsuario'] = $sistema->getIdUsuario();
             $readUserOnline = new Read;
             $readUserOnline->ExeRead('nm_session', 'WHERE id_user = :id AND session = :session_user', "id={$sistema->getIdUsuario()}&session_user={$sistema->getSession()}");
             $usuario = $readUserOnline->getResult();
@@ -95,17 +96,15 @@ class Validar {
 
     public static function Image($Image, $ImageDesc, $ImageW = null, $ImageH = null) {
 
-        self::$Data = '../../uploads/' . $Image;
-               
-        if (file_exists(self::$Data.".jpg") && !is_dir(self::$Data.".jpg")):
+        self::$Data = 'uploads/' . $Image;
+        if (file_exists(self::$Data . ".jpg") && !is_dir(self::$Data . ".jpg")):
             $patch = HOME;
-            $imagem = self::$Data.".jpg";
-            return "<img src=\"{$patch}/tim.php?src={$patch}/{$imagem}&w={$ImageW}&h={$ImageH}\" alt=\"{$ImageDesc}\" title=\"{$ImageDesc}\"/>";
-        elseif(file_exists(self::$Data.".png") && !is_dir(self::$Data.".png")):
+            $imagem = self::$Data . ".jpg";
+            return "<img class=\"img-responsive\" src=\"{$patch}/tim.php?src={$patch}/{$imagem}&w={$ImageW}&h={$ImageH}\" alt=\"{$ImageDesc}\" title=\"{$ImageDesc}\"/>";
+        elseif (file_exists(self::$Data . ".png") && !is_dir(self::$Data . ".png")):
             $patch = HOME;
-            $imagem = self::$Data.".png";
-            return "<img src=\"{$patch}/tim.php?src={$patch}/{$imagem}&w={$ImageW}&h={$ImageH}\" alt=\"{$ImageDesc}\" title=\"{$ImageDesc}\"/>";
-            return false;
+            $imagem = self::$Data . ".png";
+            return "<img class=\"img-responsive\" src=\"{$patch}/tim.php?src={$patch}/{$imagem}&w={$ImageW}&h={$ImageH}\" alt=\"{$ImageDesc}\" title=\"{$ImageDesc}\"/>";
         endif;
     }
 

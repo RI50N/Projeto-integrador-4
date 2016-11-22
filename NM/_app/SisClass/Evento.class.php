@@ -19,8 +19,12 @@ class Evento {
         $this->setIdAnunciante($dadosForm['id_anunciante']);
         $this->setDescricao($dadosForm['descricao']);
         $this->setNomeEvento($dadosForm['nome_evento']);
-        $this->setDatetime(Validar::Data(str_replace('-', '/', str_replace('T', ' ', $dadosForm['data'] . ':00'))));
+        $this->setDatetime(str_replace('T', ' ', $dadosForm['data'] . ':00'));
         $this->setFlyer($files);
+    }
+
+    function getDatetime() {
+        return $this->datetime;
     }
 
     public function cadastraEvento() {
@@ -35,30 +39,24 @@ class Evento {
 
         if ($this->id):
             $uploadImagem = new Upload();
-            $uploadImagem->Image($this->flyer, $this->id);
+            $uploadImagem->Image($this->flyer, $this->id,400);
             return "Pré-cadastro realizado com sucesso, em breve entraremos em contato.";
         else:
             return "Ops, ocorreu alguma falha no seu pré-cadastro.";
         endif;
     }
 
-    public function listarEventosAnunciante() {
-        $readEventos = new Read;
-        $readEventos->ExeRead('nm_evento', 'WHERE id_anunciante = :id', "id={$this->idAnunciante}");
-        return $readEventos->getResult();
-    }
-    
     public function rolandoHoje() {
         $readEventos = new Read;
         $now = date('Y-m-d');
         $readEventos->ExeRead('nm_evento', 'WHERE CAST(data AS DATE)= :now', "now={$now}");
         return $readEventos->getResult();
     }
-    
+
     function setDatetime($datetime) {
         $this->datetime = $datetime;
-    } 
-    
+    }
+
     public function setId($id) {
         $this->id = $id;
     }
