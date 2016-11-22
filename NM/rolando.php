@@ -23,7 +23,7 @@
                 <div class="navbar-header">
                     <a class="navbar-brand" href="#">
                         <span>
-                            <img id="brand-image" alt="logo" src="img/bussula2.png" width="50" height="200">
+                            <img  id="brand-image"  alt="logo" src="img/bussula2.png"  >
                         </span>Night Mess</a>
 
 

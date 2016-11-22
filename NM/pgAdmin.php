@@ -141,7 +141,7 @@
                 <div class="navbar-header">
                     <a class="navbar-brand" href="#">
                         <span class="bv act aoq">
-                            <img  id="brand-image"  alt="logo" src="img/bussula2.png" href="img/bussula.png" width="50" height="200" >
+                            <img  id="brand-image"  alt="logo" src="img/bussula2.png"  >
                         </span>Night Mess</a>
 
 

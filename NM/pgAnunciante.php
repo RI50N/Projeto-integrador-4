@@ -45,7 +45,7 @@
                     break;
                 case 'cadastrarEvento':
                     $evento = new Evento();
-                    $evento->popularDadosEvento($form,$_FILES['flyer']);
+                    $evento->popularDadosEvento($form, $_FILES['flyer']);
                     $evento->cadastraEvento();
                     break;
             endswitch;
@@ -54,8 +54,7 @@
         if ($usuario['logado']):
             $anunciante = new Anunciante();
             $anunciante->setId($usuario['idUsuario']);
-            $anunciante->buscaDadosAnunciante();
-            var_dump($anunciante ->getNomeResponsavel());
+            $anunciante->buscaDadosAnunciante();            
             ?>
             <div class="container-fluid">
                 <nav class="navbar  navbar-inverse ">
@@ -64,7 +63,7 @@
                     <div class="navbar-header">
                         <a class="navbar-brand" href="#">
                             <span class="bv act aoq">
-                                <img  id="brand-image"  alt="logo" src="img/bussula2.png" href="img/bussula.png" width="30" height="30" >
+                                <img  id="brand-image"  alt="logo" src="img/bussula2.png"  >
                             </span>Night Mess</a>
 
 
@@ -94,48 +93,48 @@
                                                 <form class="form-signin modal-header" action="pagAnunciante.php" method="post">
                                                     <div class="form-group col-sm-6">
                                                         <label for="estado">Estado*</label>
-                                                        <input type="text" class="form-control" id="estado" name="estado" value="<?=$anunciante->getEstado()?>" placeholder="RS" >                                                        
+                                                        <input type="text" class="form-control" id="estado" name="estado" value="<?= $anunciante->getEstado() ?>" placeholder="RS" >                                                        
                                                     </div>
                                                     <div class="form-group col-sm-6">
                                                         <label for="cidade">Cidade*</label>
-                                                        <input type="text" class="form-control" id="cidade" name="cidade" value="<?=$anunciante->getCidade()?>" placeholder="Porto Alegre">                                                                      
+                                                        <input type="text" class="form-control" id="cidade" name="cidade" value="<?= $anunciante->getCidade() ?>" placeholder="Porto Alegre">                                                                      
                                                     </div>
                                                     <div class="form-group col-sm-6">
                                                         <label for="Endereco">Endereço*</label>
-                                                        <input type="Endereço"  class="form-control" id="Endereco" name="Endereco" value="<?=$anunciante->getEndereco()?>" placeholder="rua de tal,n°00"> 
+                                                        <input type="Endereço"  class="form-control" id="Endereco" name="Endereco" value="<?= $anunciante->getEndereco() ?>" placeholder="rua de tal,n°00"> 
 
                                                     </div>
                                                     <div class="form-group col-sm-6">
                                                         <label for="CEP">Cep*</label>
-                                                        <input type="Cep"  class="form-control" id="CEP" name="CEP" value="<?=$anunciante->getCEP()?>" placeholder="00000-000"> 
+                                                        <input type="Cep"  class="form-control" id="CEP" name="CEP" value="<?= $anunciante->getCEP() ?>" placeholder="00000-000"> 
 
                                                     </div>
                                                     <div class="form-group col-sm-6">
                                                         <label for="bairro">Bairro*</label>
-                                                        <input type="Bairro"  class="form-control" id="bairro" name="bairro" value="<?=$anunciante->getBairro()?>" placeholder="Cafundo do Judas"> 
+                                                        <input type="Bairro"  class="form-control" id="bairro" name="bairro" value="<?= $anunciante->getBairro() ?>" placeholder="Cafundo do Judas"> 
 
                                                     </div>
                                                     <div class="form-group col-sm-6">
                                                         <label for="nomeResponsavel">Nome do Resposavel*</label>
-                                                        <input type="text" class="form-control" id="nomeResponsavel" name="nomeResponsavel" value="<?=$anunciante->getNomeResponsavel()?>">
+                                                        <input type="text" class="form-control" id="nomeResponsavel" name="nomeResponsavel" value="<?= $anunciante->getNomeResponsavel() ?>">
 
                                                     </div>
                                                     <div class="form-group col-sm-6">
                                                         <label for="sobrenomeResponsavel">Sobrenome do Resposavel*</label>
-                                                        <input type="text" class="form-control" id="sobrenomeResponsavel" name="sobrenomeResponsavel" value="<?=$anunciante->getSobrenomeResponsavel()?>">
+                                                        <input type="text" class="form-control" id="sobrenomeResponsavel" name="sobrenomeResponsavel" value="<?= $anunciante->getSobrenomeResponsavel() ?>">
 
                                                     </div>
                                                     <div class="form-group col-sm-6">
                                                         <label for="E-mail">E-mail*</label>
-                                                        <input type="email"  class="form-control" id="email" name="email" placeholder="email@exemplo.com" value="<?=$anunciante->getEmail()?>"> 
+                                                        <input type="email"  class="form-control" id="email" name="email" placeholder="email@exemplo.com" value="<?= $anunciante->getEmail() ?>"> 
                                                     </div>
                                                     <div class="form-group col-sm-6">
                                                         <label for="telef">Telefone de contato*</label>
-                                                        <input type="telef"  class="form-control" id="telef" name="telef" placeholder="(00)0000-0000" value="<?=$anunciante->getTelefoneContato()?>" > 
+                                                        <input type="telef"  class="form-control" id="telef" name="telef" placeholder="(00)0000-0000" value="<?= $anunciante->getTelefoneContato() ?>" > 
                                                     </div>
                                                     <div class="form-group col-sm-6">
                                                         <label for="celu">Celular/ What's App*</label>
-                                                        <input type="telef"  class="form-control" id="celu" name="celu" placeholder="(00)0000-0000" value="<?=$anunciante->getWhatsapp()?>"> 
+                                                        <input type="telef"  class="form-control" id="celu" name="celu" placeholder="(00)0000-0000" value="<?= $anunciante->getWhatsapp() ?>"> 
                                                     </div>
                                                     <div class="form-group col-sm-6">
                                                         <label for="senha">Nova Senha*</label>
@@ -239,7 +238,7 @@
                                         <div class="panel-body">
                                             <form enctype="multipart/form-data"  method="post" >
                                                 <input type="hidden" name="acao" value="cadastrarEvento">
-                                                <input type="hidden" name="id_anunciante" value="<?=$anunciante->getIdAnunciante()?>">
+                                                <input type="hidden" name="id_anunciante" value="<?= $anunciante->getIdAnunciante() ?>">
                                                 <div class="form-group col-sm-6">
                                                     <label for="NomeEvento">Nome do evento*</label>
                                                     <input type="NomeEvento"  class="form-control" id="nomeEvento" name="nome_evento"> 
@@ -262,9 +261,9 @@
                                                 </div>
 
                                                 <div class="form-group col-sm-6">
-                                                <label>Descrição do evento*: </label>
-                                                <br/>
-                                                <textarea type="text" cols="30" rows="5" name="descricao" id="descricao" placeholder="Descreva o evento." ></textarea>
+                                                    <label>Descrição do evento*: </label>
+                                                    <br/>
+                                                    <textarea type="text" cols="30" rows="5" name="descricao" id="descricao" placeholder="Descreva o evento." ></textarea>
                                                 </div>
                                                 <br/>
 
@@ -278,58 +277,57 @@
                                 </div>
                             </div>
 
-                            <div class="row">
+                            <div class="col-sm-7">
+                                <div class="row">
 
-                                <div class="col-sm-12">
-                                    <div class="scroll">
-                                        <div class="well">
-                                            <p>Exemplo</p>
-                                            <div class="container-fluid">
-                                                <div class="col-xs-12">
-                                                    <img  class="img-responsive" src="img/b1.jpg" >
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-xs-6">
-                                                        <p>Evento: </p>
-                                                    </div>
-                                                    <div class="col-xs-6">
-                                                        <p>Horário: </p>
-                                                    </div>
-                                                    <div class="col-xs-6">
-                                                        <p>Data: </p>
-                                                    </div>
+                                    <div class="col-sm-12">
+                                        <div class="scroll">
+                                            <div class="well">
+                                                <p>Exemplo</p>
+                                                <div class="container-fluid">
                                                     <div class="col-xs-12">
-                                                        <div class="col-xs-6">                                                        
-                                                            <button type="button" class="btn btn-warning">Alterar</button>
+                                                        <img  class="img-responsive" src="img/b1.jpg" >
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xs-6">
+                                                            <p>Evento: </p>
                                                         </div>
-                                                        <div class="col-xs-6">                                                        
-                                                            <button type="button" class="btn btn-danger">Cancelar</button>
+                                                        <div class="col-xs-6">
+                                                            <p>Horário: </p>
+                                                        </div>
+                                                        <div class="col-xs-6">
+                                                            <p>Data: </p>
+                                                        </div>
+                                                        <div class="col-xs-12">
+                                                            <div class="col-xs-6">                                                        
+                                                                <button type="button" class="btn btn-warning">Alterar</button>
+                                                            </div>
+                                                            <div class="col-xs-6">                                                        
+                                                                <button type="button" class="btn btn-danger">Cancelar</button>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="well">
-                                            <p>Just Forgot that I had to mention something about someone to someone about how I forgot something, but now I forgot it. Ahh, forget it! Or wait. I remember.... no I don't.</p>
-                                        </div>
-                                        <div class="well">
-                                            <p>Just Forgot that I had to mention something about someone to someone about how I forgot something, but now I forgot it. Ahh, forget it! Or wait. I remember.... no I don't.</p>
-                                        </div>
-                                        <div class="well">
-                                            <p>Just Forgot that I had to mention something about someone to someone about how I forgot something, but now I forgot it. Ahh, forget it! Or wait. I remember.... no I don't.</p>
-                                        </div>
-                                        <div class="well">
-                                            <p>Just Forgot that I had to mention something about someone to someone about how I forgot something, but now I forgot it. Ahh, forget it! Or wait. I remember.... no I don't.</p>
-                                        </div>
-                                        <div class="well">
-                                            <p>Just Forgot that I had to mention something about someone to someone about how I forgot something, but now I forgot it. Ahh, forget it! Or wait. I remember.... no I don't.</p>
+                                            <div class="well">
+                                                <p>Just Forgot that I had to mention something about someone to someone about how I forgot something, but now I forgot it. Ahh, forget it! Or wait. I remember.... no I don't.</p>
+                                            </div>
+                                            <div class="well">
+                                                <p>Just Forgot that I had to mention something about someone to someone about how I forgot something, but now I forgot it. Ahh, forget it! Or wait. I remember.... no I don't.</p>
+                                            </div>
+                                            <div class="well">
+                                                <p>Just Forgot that I had to mention something about someone to someone about how I forgot something, but now I forgot it. Ahh, forget it! Or wait. I remember.... no I don't.</p>
+                                            </div>
+                                            <div class="well">
+                                                <p>Just Forgot that I had to mention something about someone to someone about how I forgot something, but now I forgot it. Ahh, forget it! Or wait. I remember.... no I don't.</p>
+                                            </div>
+                                            <div class="well">
+                                                <p>Just Forgot that I had to mention something about someone to someone about how I forgot something, but now I forgot it. Ahh, forget it! Or wait. I remember.... no I don't.</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
-
-
                         </div>
                         <div class="col-sm-2 well">
                             <div class="thumbnail">
@@ -389,7 +387,7 @@
                 maxFileSize: 1000,
                 maxFilesNum: 10,
 //allowedFileTypes: ['image', 'video', 'flash'],
-                slugCallback: function (filename) {
+                slugCallback: function(filename) {
                     return filename.replace('(', '_').replace(']', '_');
                 }
             });
@@ -408,14 +406,14 @@
             $("#file-4").fileinput({
                 uploadExtraData: {kvId: '10'}
             });
-            $(".btn-warning").on('click', function () {
+            $(".btn-warning").on('click', function() {
                 if ($('#file-4').attr('disabled')) {
                     $('#file-4').fileinput('enable');
                 } else {
                     $('#file-4').fileinput('disable');
                 }
             });
-            $(".btn-info").on('click', function () {
+            $(".btn-info").on('click', function() {
                 $('#file-4').fileinput('refresh', {previewClass: 'bg-info'});
             });
             /*
@@ -426,7 +424,7 @@
              alert('File browse clicked for #file-4');
              });
              */
-            $(document).ready(function () {
+            $(document).ready(function() {
                 $("#test-upload").fileinput({
                     'showPreview': false,
                     'allowedFileExtensions': ['jpg', 'png', 'gif'],
