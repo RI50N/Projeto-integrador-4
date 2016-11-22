@@ -25,8 +25,7 @@
         <style>
             div.scroll {
                 background-color:  #1E88E5;
-                width: 500px;
-                height: 600px;                
+                height: 600px;               
                 overflow-y: scroll;
             }
         </style>
@@ -44,6 +43,7 @@
                     header("Location: {$direcionar}");
                     break;
                 case 'cadastrarEvento':
+                    var_dump($form);
                     $evento = new Evento();
                     $evento->popularDadosEvento($form, $_FILES['flyer']);
                     $evento->cadastraEvento();
@@ -185,13 +185,13 @@
                                 </style>
 
                                 <!-- the avatar markup -->
-                                <div id="kv-avatar-errors-1" class="center-block" style="width:800px;display:none"></div>
+                                <!--div id="kv-avatar-errors-1" class="center-block" style="width:800px;display:none"></div>
                                 <form class="text-center" action="/avatar_upload.php" method="post" enctype="multipart/form-data">
                                     <div class="kv-avatar center-block" style="width:200px">
                                         <input id="avatar-1" name="avatar-1" type="file" class="file-loading">
                                     </div>
                                     <!-- include other inputs if needed and include a form submit (save) button -->
-                                </form>
+                                <!--/form>
                                 <!-- your server code `avatar_upload.php` will receive `$_FILES['avatar']` on form submission -->
 
                                 <!-- the fileinput plugin initialization -->
@@ -244,15 +244,10 @@
                                                     <input type="NomeEvento"  class="form-control" id="nomeEvento" name="nome_evento"> 
 
                                                 </div>
+                                                
                                                 <div class="form-group col-sm-6">
-                                                    <label for="Horario">Horário de funcionamento*</label>
-                                                    <input type="time"  class="form-control" id="horario" name="horario"> 
-
-                                                </div>
-                                                <div class="form-group col-sm-6">
-                                                    <label for="Data">Data*</label>
-                                                    <input type="date"  class="form-control" id="Data" name="Data"> 
-
+                                                    <label for="Data">Data e harário de funcionamento*</label>
+                                                    <input type="datetime-local"  class="form-control" id="data" name="data"> 
                                                 </div>
 
                                                 <div class="form-group col-sm-6">                                                                                                      
@@ -277,11 +272,8 @@
                                 </div>
                             </div>
 
-                            <div class="col-sm-7">
-                                <div class="row">
-
-                                    <div class="col-sm-12">
-                                        <div class="scroll">
+                            <div class="scroll col-sm-12">
+                                <div class="row">                                   
                                             <div class="well">
                                                 <p>Exemplo</p>
                                                 <div class="container-fluid">
@@ -327,8 +319,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
+                            
                         <div class="col-sm-2 well">
                             <div class="thumbnail">
                                 <p>Proximos Eventos:</p>
