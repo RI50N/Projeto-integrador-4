@@ -28,6 +28,10 @@
                 height: 600px;               
                 overflow-y: scroll;
             }
+            div.scroll2 {                
+                height: 150px;               
+                overflow-y: scroll;
+            }
         </style>
 
         <?php
@@ -255,10 +259,10 @@
                                                     <input id="file-3" type="file" name="flyer">
                                                 </div>
 
-                                                <div class="form-group col-sm-6">
+                                                <div class="form-group col-sm-6 scroll2">
                                                     <label>Descrição do evento*: </label>
                                                     <br/>
-                                                    <textarea type="text" cols="30" rows="5" name="descricao" id="descricao" placeholder="Descreva o evento." ></textarea>
+                                                    <textarea class="form-control" type="text" cols="30" rows="5" name="descricao" id="descricao" placeholder="Descreva o evento." ></textarea>
                                                 </div>
                                                 <br/>
 
@@ -292,8 +296,46 @@
                                                         <p>Data/Horário: <?= $eventosAnunciante[$i]['data'] ?></p>
                                                     </div>
                                                     <div class="col-xs-12">
-                                                        <div class="col-xs-6">                                                        
-                                                            <button type="button" class="btn btn-warning">Alterar</button>
+                                                        <div class="col-xs-6">  
+                                                            <button type="button" data-toggle="modal" data-target="#alterarEvento" class="btn btn-warning"> Alterar Evento</button>
+                                                            <div class="modal fade" id="alterarEvento" role="dialog">
+                                                                <div class="modal-dialog">
+
+                                                                    <div class="modal-content">
+
+                                                                        <div class="modal-header">
+                                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                                            <h4 class="modal-title">Alterar Evento</h4>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            <div class="container-fluid">
+                                                                                <form class="form-signin modal-header" action="pagAnunciante.php" method="post">
+                                                                                    <div class="form-group col-sm-6">
+                                                                                        <label for="evento">Evento*</label>
+                                                                                        <input type="text" class="form-control" id="evento" name="evento" >                                                        
+                                                                                    </div>
+                                                                                    <div class="form-group col-sm-6">
+                                                                                        <label for="Data">Data/Horário*</label>
+                                                                                        <input type="datetime-local"  class="form-control" id="data" name="data">                                                                      
+                                                                                    </div>  
+                                                                                    <div class="form-group col-sm-6">                                                                                                      
+                                                                                        <label>Selecione a Imagem*</label>
+                                                                                        <input id="file-3" type="file" name="flyer">
+                                                                                    </div>
+                                                                                    <div class="form-group col-sm-6 scroll2">
+                                                                                        <label>Descrição do evento*: </label>
+                                                                                        <br/>
+                                                                                        <textarea class="form-control" type="text" cols="20" rows="5" name="descricao" id="descricao" placeholder="Descreva o evento." ></textarea>
+                                                                                    </div>
+                                                                                    <div class="form-group col-sm-8">
+                                                                                        <button type="submit" class="btn btn-primary" href="" >Alterar</button>
+                                                                                    </div>
+                                                                                </form> 
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>                                                            
                                                         </div>
                                                         <div class="col-xs-6">                                                        
                                                             <button type="button" class="btn btn-danger">Cancelar</button>
@@ -371,7 +413,7 @@
                 maxFileSize: 1000,
                 maxFilesNum: 10,
 //allowedFileTypes: ['image', 'video', 'flash'],
-                slugCallback: function (filename) {
+                slugCallback: function(filename) {
                     return filename.replace('(', '_').replace(']', '_');
                 }
             });
@@ -390,14 +432,14 @@
             $("#file-4").fileinput({
                 uploadExtraData: {kvId: '10'}
             });
-            $(".btn-warning").on('click', function () {
+            $(".btn-warning").on('click', function() {
                 if ($('#file-4').attr('disabled')) {
                     $('#file-4').fileinput('enable');
                 } else {
                     $('#file-4').fileinput('disable');
                 }
             });
-            $(".btn-info").on('click', function () {
+            $(".btn-info").on('click', function() {
                 $('#file-4').fileinput('refresh', {previewClass: 'bg-info'});
             });
             /*
@@ -408,7 +450,7 @@
              alert('File browse clicked for #file-4');
              });
              */
-            $(document).ready(function () {
+            $(document).ready(function() {
                 $("#test-upload").fileinput({
                     'showPreview': false,
                     'allowedFileExtensions': ['jpg', 'png', 'gif'],
