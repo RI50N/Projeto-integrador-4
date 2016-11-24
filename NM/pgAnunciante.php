@@ -49,7 +49,51 @@
                 case 'cadastrarEvento':
                     $evento = new Evento();
                     $evento->popularDadosEvento($form, $_FILES['flyer']);
-                    $evento->cadastraEvento();
+                    $msg = $evento->cadastraEvento();
+                    break;
+                case 'updateEvento':
+                    $evento = new Evento();
+                    $evento->setId($form['id_evento']);
+                    if (isset($_FILES['flyer2'])):
+                        $evento->popularDadosEvento($form, $_FILES['flyer2']);
+                    else:
+                        $evento->popularDadosEvento($form);
+                    endif;
+                    $msg = $evento->updateEvento();
+                    break;
+                case 'cancelarEvento':
+                    $evento = new Evento();
+                    $evento->setId($form['id_evento']);
+                    $msg = $evento->cancelar();
+                    break;
+                case 'ativarEvento':
+                    $evento = new Evento();
+                    $evento->setId($form['id_evento']);
+                    $msg = $evento->ativar();
+                    break;
+                case 'alterarDadosAnunciante':
+                    var_dump($form);
+                    if (!empty($form['cep']) &&
+                            !empty($form['cnpj']) &&
+                            !empty($form['endereco']) &&
+                            !empty($form['bairro']) &&
+                            !empty($form['email']) &&
+                            !empty($form['nomeEmpresa']) &&
+                            !empty($form['nomeFantasia']) &&
+                            !empty($form['nomeResponsavel']) &&
+                            !empty($form['estado']) &&
+                            !empty($form['cidade']) &&
+                            !empty($form['telefoneContato'])):
+                        $anunciante = new Anunciante();
+                        $anunciante->setId($form['idUsuario']);
+                        $anunciante->populaDados($form);
+                        $msg = $anunciante->updateDadosAnunciante();
+                    else:
+                        $msg = 'Campo obrigatorio não preenchido';
+                    endif;
+                    break;
+                case 'rolando':
+                    header("Location: rolando.php");
                     break;
             endswitch;
         }
@@ -59,6 +103,7 @@
             $anunciante->setId($usuario['idUsuario']);
             $anunciante->buscaDadosAnunciante();
             $eventosAnunciante = $anunciante->listarEventosAnunciante();
+            $rolandoHoje = Evento::rolandoHoje();
             ?>
             <div class="container-fluid">
                 <nav class="navbar  navbar-inverse ">
@@ -77,7 +122,37 @@
                             <span class="icon-bar"></span>
                         </button>
                     </div>
+                    <div class="modal fade" id="msgAviso" role="dialog">
+                        <div class="modal-dialog">
 
+                            <div class="modal-content">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="col-sm-6">
+                                            <h4>Aviso</h4>
+                                        </div>
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>  
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-sm-12">                                
+                                        <div class="modal-body">
+                                            <div class="container-fluid">
+                                                <span><?= $msg ?></span>
+                                                <?php if ($msg != "") {
+                                                    ?>
+                                                    <span id="aviso"></span>
+                                                <?php }
+                                                ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="collapse navbar-collapse" id="myNavbar">
                         <ul class="nav navbar-nav navbar-right">
                             <li><a data-toggle="modal" data-target="#alterardados"><span class="glyphicon glyphicon-user"></span> Alterar Dados</a></li>
@@ -94,38 +169,46 @@
                                         </div>
                                         <div class="modal-body">
                                             <div class="container-fluid">
-                                                <form class="form-signin modal-header" action="pagAnunciante.php" method="post">
+                                                <form class="form-signin modal-header" method="POST">
+                                                    <input type="hidden" name="idUsuario" value="<?= $anunciante->getIdUsuario() ?>">
+                                                    <input type="hidden" name="acao" value="alterarDadosAnunciante">
+                                                    <label for="NomeE">Nome da Empresa*</label>
+                                                    <input type="text" class="form-control" value="<?= $anunciante->getNomeEmpresa() ?>" id="NomeE" name="nomeEmpresa" >
+                                                    <br>
+                                                    <label for="Nomef">Nome Fantasia*</label>
+                                                    <input type="text" class="form-control" id="Nomef" name="nomeFantasia" value="<?= $anunciante->getNomeFantasia() ?>">
+                                                    <br>
                                                     <div class="form-group col-sm-6">
-                                                        <label for="estado">Estado*</label>
-                                                        <input type="text" class="form-control" id="estado" name="estado" value="<?= $anunciante->getEstado() ?>" placeholder="RS" >                                                        
+                                                        <label for="CNPJ">CNPJ*</label>
+                                                        <input type="CNPJ"  class="form-control" id="CNPJ" name="cnpj" placeholder="00.000.000/0000-00" value="<?= $anunciante->getCNPJ() ?>"> 
                                                     </div>
                                                     <div class="form-group col-sm-6">
-                                                        <label for="cidade">Cidade*</label>
-                                                        <input type="text" class="form-control" id="cidade" name="cidade" value="<?= $anunciante->getCidade() ?>" placeholder="Porto Alegre">                                                                      
+                                                        <label for="Estado">Estado*</label>
+                                                        <input type="text" class="form-control" id="estados" name="estado"  placeholder="RS" value="<?= $anunciante->getEstado() ?>" >                                                                                
                                                     </div>
                                                     <div class="form-group col-sm-6">
-                                                        <label for="Endereco">Endereço*</label>
-                                                        <input type="Endereço"  class="form-control" id="Endereco" name="Endereco" value="<?= $anunciante->getEndereco() ?>" placeholder="rua de tal,n°00"> 
-
+                                                        <label for="Cidade">Cidade*</label>
+                                                        <input type="text" class="form-control" id="cidade" name="cidade" placeholder="Porto Alegre" value="<?= $anunciante->getCidade() ?>">                                                                      
                                                     </div>
                                                     <div class="form-group col-sm-6">
-                                                        <label for="CEP">Cep*</label>
-                                                        <input type="Cep"  class="form-control" id="CEP" name="CEP" value="<?= $anunciante->getCEP() ?>" placeholder="00000-000"> 
-
+                                                        <label for="Endereço">Endereço*</label>
+                                                        <input type="Endereço"  class="form-control" id="Endereço" name="endereco" placeholder="rua de tal,n°00" value="<?= $anunciante->getEndereco() ?>"> 
                                                     </div>
                                                     <div class="form-group col-sm-6">
-                                                        <label for="bairro">Bairro*</label>
-                                                        <input type="Bairro"  class="form-control" id="bairro" name="bairro" value="<?= $anunciante->getBairro() ?>" placeholder="Cafundo do Judas"> 
-
+                                                        <label for="Cep">Cep*</label>
+                                                        <input type="Cep"  class="form-control" id="Cep" name="cep" placeholder="00000-000" value="<?= $anunciante->getCEP() ?>"> 
                                                     </div>
                                                     <div class="form-group col-sm-6">
-                                                        <label for="nomeResponsavel">Nome do Resposavel*</label>
-                                                        <input type="text" class="form-control" id="nomeResponsavel" name="nomeResponsavel" value="<?= $anunciante->getNomeResponsavel() ?>">
-
+                                                        <label for="Bairro">Bairro*</label>
+                                                        <input type="Bairro"  class="form-control" id="Bairro" name="bairro" placeholder="Cafundo do Judas" value="<?= $anunciante->getBairro() ?>"> 
                                                     </div>
                                                     <div class="form-group col-sm-6">
-                                                        <label for="sobrenomeResponsavel">Sobrenome do Resposavel*</label>
-                                                        <input type="text" class="form-control" id="sobrenomeResponsavel" name="sobrenomeResponsavel" value="<?= $anunciante->getSobrenomeResponsavel() ?>">
+                                                        <label for="Nomer">Nome do Resposavel*</label>
+                                                        <input type="text" class="form-control" id="nomer" name="nomeResponsavel" value="<?= $anunciante->getNomeResponsavel() ?>">
+                                                    </div>
+                                                    <div class="form-group col-sm-6">
+                                                        <label for="sobrenomer">Sobrenome do Resposavel*</label>
+                                                        <input type="text" class="form-control" id="sobrenomer" name="sobrenomeResponsavel" value="<?= $anunciante->getSobrenomeResponsavel() ?>">
 
                                                     </div>
                                                     <div class="form-group col-sm-6">
@@ -134,34 +217,39 @@
                                                     </div>
                                                     <div class="form-group col-sm-6">
                                                         <label for="telef">Telefone de contato*</label>
-                                                        <input type="telef"  class="form-control" id="telef" name="telef" placeholder="(00)0000-0000" value="<?= $anunciante->getTelefoneContato() ?>" > 
+                                                        <input type="telef"  class="form-control" id="telefone" name="telefoneContato" placeholder="(00)0000-0000" value="<?= $anunciante->getTelefoneContato() ?>"> 
                                                     </div>
                                                     <div class="form-group col-sm-6">
-                                                        <label for="celu">Celular/ What's App*</label>
-                                                        <input type="telef"  class="form-control" id="celu" name="celu" placeholder="(00)0000-0000" value="<?= $anunciante->getWhatsapp() ?>"> 
+                                                        <label for="celu">Celular/ whatsapp*</label>
+                                                        <input type="telef"  class="form-control" id="celular" name="whatsapp" placeholder="(00)0000-0000" value="<?= $anunciante->getWhatsapp() ?>"> 
                                                     </div>
-                                                    <div class="form-group col-sm-6">
-                                                        <label for="senha">Nova Senha*</label>
-                                                        <input type="password" name="senha" id="senha" class="form-control" placeholder="Senha" required="">
-                                                    </div>
-                                                    <div class="form-group col-sm-6">
-                                                        <label for="senha">Confirmar Senha*</label>
-                                                        <input type="password" name="senha" id="senha" class="form-control" placeholder="Senha" required="">
-                                                    </div>
-                                                    <br>
                                                     <div class="form-group col-sm-8">
                                                         <button type="submit" class="btn btn-primary" href="" >Alterar</button>
                                                     </div>
-                                                </form> 
-                                            </div>
+                                                </form>
+                                            </div>	
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </ul>
+                        <form id="RolandForm" method="post">
+                            <input type="hidden" name="acao" value="rolando">
+                        </form>
                         <ul class="nav navbar-nav navbar-right">
                             <li><a href="#">Home</a></li>                                
-                            <li><a href="rolando.php">Rolando Hoje</a></li> 
+                            <li><a id="Rolando">Rolando Hoje</a></li> 
+
+                            <script>
+                                $(document).ready(function () {
+                                    $('#Rolando').click(function () {
+                                        $('#RolandForm').submit();
+                                    });
+                                });
+                            </script>
                         </ul>
                     </div>
 
@@ -172,68 +260,25 @@
                 <div class="container text-center">
                     <div class="row">
                         <div class="col-sm-3 well">
+
+
+
                             <div class="well">
-                                <!-- some CSS styling changes and overrides -->
-                                <style>
-                                    .kv-avatar .file-preview-frame,.kv-avatar .file-preview-frame:hover {
-                                        margin: 0;
-                                        padding: 0;
-                                        border: none;
-                                        box-shadow: none;
-                                        text-align: center;
-                                    }
-                                    .kv-avatar .file-input {
-                                        display: table-cell;
-                                        max-width: 220px;
-                                    }
-                                </style>
+                                <p><b>Meus dados</b></p>
 
-                                <!-- the avatar markup -->
-                                <!--div id="kv-avatar-errors-1" class="center-block" style="width:800px;display:none"></div>
-                                <form class="text-center" action="/avatar_upload.php" method="post" enctype="multipart/form-data">
-                                    <div class="kv-avatar center-block" style="width:200px">
-                                        <input id="avatar-1" name="avatar-1" type="file" class="file-loading">
-                                    </div>
-                                <!-- include other inputs if needed and include a form submit (save) button -->
-                                <!--/form>
-                                <!-- your server code `avatar_upload.php` will receive `$_FILES['avatar']` on form submission -->
-
-                                <!-- the fileinput plugin initialization -->
-                                <script>
-                                    var btnCust = '<button type="button" class="btn btn-default" title="Add picture tags" ' +
-                                            'onclick="alert(\'Call your custom code here.\')">' +
-                                            '<i class="glyphicon glyphicon-tag"></i>' +
-                                            '</button>';
-                                    $("#avatar-1").fileinput({
-                                        overwriteInitial: true,
-                                        maxFileSize: 1500,
-                                        showClose: false,
-                                        showCaption: false,
-                                        browseLabel: '',
-                                        removeLabel: '',
-                                        browseIcon: '<i class="glyphicon glyphicon-folder-open"></i>',
-                                        removeIcon: '<i class="glyphicon glyphicon-remove"></i>',
-                                        removeTitle: 'Cancel or reset changes',
-                                        elErrorContainer: '#kv-avatar-errors-1',
-                                        msgErrorClass: 'alert alert-block alert-danger',
-                                        defaultPreviewContent: '<img src="/uploads/default_avatar_male.jpg" alt="Your Avatar" style="width:160px">',
-                                        layoutTemplates: {main2: '{preview} ' + btnCust + ' {remove} {browse}'},
-                                        allowedFileExtensions: ["jpg", "png", "gif"]
-                                    });
-                                </script>
-                                <p><a href="#">My Profile</a></p>
-                                <img src="img/910.jpg" class="img-circle" height="65" width="65" alt="Avatar">
+                                <p>Nome da Empresa: <?= $anunciante->getNomeEmpresa() ?></p>
+                                <p>Nome Fantasia: <?= $anunciante->getNomeFantasia() ?></p>
+                                <p>CNPJ: <?= $anunciante->getCNPJ() ?></p>
+                                <p>Estado: <?= $anunciante->getEstado() ?></p>
+                                <p>Cidade: <?= $anunciante->getCidade() ?></p>
+                                <p>Endereço: <?= $anunciante->getEndereco() ?></p>
+                                <p>Cep: <?= $anunciante->getCEP() ?></p>
+                                <p>Bairro: <?= $anunciante->getBairro() ?></p>
+                                <p>Nome do Resposavel: <?= $anunciante->getNomeResponsavel() . ' ' . $anunciante->getSobrenomeResponsavel() ?></p>
+                                <p>E-mail: <?= $anunciante->getEmail() ?></p>
+                                <p>Telefone de contato: <?= $anunciante->getTelefoneContato() ?></p>
+                                <p>Celular/ whatsapp: <?= $anunciante->getWhatsapp() ?></p>
                             </div>
-                            <div class="well">
-                                <p><a href="#">Contato</a></p>
-                                <p>
-                                <p>Endereço: Rua de tal,n°00</p>
-
-                            </div>
-
-                            <p><a href="#">site do local</a></p>
-                            <p><a href="#">Link</a></p>
-                            <p><a href="#">Link</a></p>
                         </div>
                         <div class="col-sm-7">
                             <div class="row">
@@ -248,24 +293,20 @@
                                                     <input type="NomeEvento"  class="form-control" id="nomeEvento" name="nome_evento"> 
 
                                                 </div>
-
                                                 <div class="form-group col-sm-6">
                                                     <label for="Data">Data e harário de funcionamento*</label>
                                                     <input type="datetime-local"  class="form-control" id="data" name="data"> 
                                                 </div>
-
                                                 <div class="form-group col-sm-6">                                                                                                      
                                                     <label>Selecione a Imagem*</label>
                                                     <input id="file-3" type="file" name="flyer">
                                                 </div>
-
                                                 <div class="form-group col-sm-6 scroll2">
                                                     <label>Descrição do evento*: </label>
                                                     <br/>
                                                     <textarea class="form-control" type="text" cols="30" rows="5" name="descricao" id="descricao" placeholder="Descreva o evento." ></textarea>
                                                 </div>
                                                 <br/>
-
                                                 <div class="form-group col-sm-12">
                                                     <center><button type="submit" class="btn btn-primary" name="submit" ><b>Publicar</b></button>
                                                         <button type="reset" class="btn btn-default" name="reset" value="Limpar"><b>Limpar</b></button></center>
@@ -297,35 +338,36 @@
                                                     </div>
                                                     <div class="col-xs-12">
                                                         <div class="col-xs-6">  
-                                                            <button type="button" data-toggle="modal" data-target="#alterarEvento" class="btn btn-warning"> Alterar Evento</button>
-                                                            <div class="modal fade" id="alterarEvento" role="dialog">
+                                                            <button type="button" data-toggle="modal" data-target="#alterarEvento<?= $eventosAnunciante[$i]['id'] ?>" class="btn btn-warning"> Alterar Evento</button>
+                                                            <div class="modal fade" id="alterarEvento<?= $eventosAnunciante[$i]['id'] ?>" role="dialog">
                                                                 <div class="modal-dialog">
-
                                                                     <div class="modal-content">
-
                                                                         <div class="modal-header">
                                                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                                             <h4 class="modal-title">Alterar Evento</h4>
                                                                         </div>
                                                                         <div class="modal-body">
                                                                             <div class="container-fluid">
-                                                                                <form class="form-signin modal-header" action="pagAnunciante.php" method="post">
+                                                                                <form enctype="multipart/form-data" class="form-signin modal-header" method="post">
+                                                                                    <input type="hidden" name="id_evento" value="<?= $eventosAnunciante[$i]['id'] ?>">
+                                                                                    <input type="hidden" name="acao" value="updateEvento">
                                                                                     <div class="form-group col-sm-6">
-                                                                                        <label for="evento">Evento*</label>
-                                                                                        <input type="text" class="form-control" id="evento" name="evento" >                                                        
+                                                                                        <label for="evento">Nome do evento*</label>
+                                                                                        <input type="text" class="form-control" id="evento" name="nome_evento" value="<?= $eventosAnunciante[$i]['nome_evento'] ?>">                                                        
                                                                                     </div>
                                                                                     <div class="form-group col-sm-6">
                                                                                         <label for="Data">Data/Horário*</label>
-                                                                                        <input type="datetime-local"  class="form-control" id="data" name="data">                                                                      
+                                                                                        <?php $date = (new DateTime($eventosAnunciante[$i]['data']))->format('d/m/Y H:i'); ?>
+                                                                                        <input type="datetime-local"  class="form-control" id="data" name="data"><?= $date ?></input>                                                                     
                                                                                     </div>  
                                                                                     <div class="form-group col-sm-6">                                                                                                      
                                                                                         <label>Selecione a Imagem*</label>
-                                                                                        <input id="file-3" type="file" name="flyer">
+                                                                                        <input type="file" name="flyer2">
                                                                                     </div>
                                                                                     <div class="form-group col-sm-6 scroll2">
                                                                                         <label>Descrição do evento*: </label>
                                                                                         <br/>
-                                                                                        <textarea class="form-control" type="text" cols="20" rows="5" name="descricao" id="descricao" placeholder="Descreva o evento." ></textarea>
+                                                                                        <textarea class="form-control" type="text" cols="20" rows="5" name="descricao" id="descricao" ><?= $eventosAnunciante[$i]['descricao'] ?></textarea>
                                                                                     </div>
                                                                                     <div class="form-group col-sm-8">
                                                                                         <button type="submit" class="btn btn-primary" href="" >Alterar</button>
@@ -337,9 +379,30 @@
                                                                 </div>
                                                             </div>                                                            
                                                         </div>
-                                                        <div class="col-xs-6">                                                        
-                                                            <button type="button" class="btn btn-danger">Cancelar</button>
-                                                        </div>
+                                                        <?php
+                                                        if ($eventosAnunciante[$i]['cancelado'] == 0):
+                                                            ?>
+                                                            <form method="post">
+                                                                <input type="hidden" name="id_evento" value="<?= $eventosAnunciante[$i]['id'] ?>">
+                                                                <input type="hidden" name="acao" value="cancelarEvento">
+                                                                <div class="col-xs-6">                                                        
+                                                                    <button type="submit" class="btn btn-danger">cancelar</button>
+                                                                </div>
+                                                            </form>
+                                                            <?php
+                                                        else:
+                                                            ?>    
+                                                            <form method="post">
+                                                                <input type="hidden" name="id_evento" value="<?= $eventosAnunciante[$i]['id'] ?>">
+                                                                <input type="hidden" name="acao" value="ativarEvento">
+                                                                <div class="col-xs-6">                                                        
+                                                                    <button type="submit" class="btn btn-danger">ativar</button>
+                                                                </div>
+                                                            </form>
+                                                        <?php
+                                                        endif;
+                                                        ?>
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -356,19 +419,18 @@
                         </div>
 
                         <div class="col-sm-2 well">
-                            <div class="thumbnail">
-                                <p>Proximos Eventos:</p>
-                                <img src="img/b1.jpg" alt="Paris" width="400" height="300">
-                                <p><strong>Estação</strong></p>
-                                <p>Sexta 00 mes 2015</p>
-                                <button class="btn btn-primary">Info</button>
-                            </div>
-                            <div class="well">
-                                <p>ADS</p>
-                            </div>
-                            <div class="well">
-                                <p>ADS</p>
-                            </div>
+                            <p>Proximos Eventos:</p>
+                            <?php
+                            for ($i = 0; $i < count($rolandoHoje); $i++):
+                                ?>
+                                <div class="thumbnail">
+                                    <?= Validar::Image($rolandoHoje[$i]['id'], $rolandoHoje[$i]['nome_evento'], 400, 300) ?>
+                                    <p><strong><?= $rolandoHoje[$i]['nome_evento'] ?></strong></p>
+                                    <p> <?= $rolandoHoje[$i]['data'] ?></p>
+                                </div>
+                                <?php
+                            endfor;
+                            ?>
                         </div>
                     </div>
                 </div>
@@ -413,7 +475,7 @@
                 maxFileSize: 1000,
                 maxFilesNum: 10,
 //allowedFileTypes: ['image', 'video', 'flash'],
-                slugCallback: function(filename) {
+                slugCallback: function (filename) {
                     return filename.replace('(', '_').replace(']', '_');
                 }
             });
@@ -432,14 +494,14 @@
             $("#file-4").fileinput({
                 uploadExtraData: {kvId: '10'}
             });
-            $(".btn-warning").on('click', function() {
+            $(".btn-warning").on('click', function () {
                 if ($('#file-4').attr('disabled')) {
                     $('#file-4').fileinput('enable');
                 } else {
                     $('#file-4').fileinput('disable');
                 }
             });
-            $(".btn-info").on('click', function() {
+            $(".btn-info").on('click', function () {
                 $('#file-4').fileinput('refresh', {previewClass: 'bg-info'});
             });
             /*
@@ -450,7 +512,7 @@
              alert('File browse clicked for #file-4');
              });
              */
-            $(document).ready(function() {
+            $(document).ready(function () {
                 $("#test-upload").fileinput({
                     'showPreview': false,
                     'allowedFileExtensions': ['jpg', 'png', 'gif'],

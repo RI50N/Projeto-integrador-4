@@ -66,13 +66,16 @@ class Validar {
         $result['logado'] = TRUE;
         $result['msg'] = '';
         $result['idUsuario'] = null;
+        $result['tipo'] = null;
 
         $now = date('Y-m-d H:i:s');
         $deleteUserOnline = new Delete;
         $deleteUserOnline->ExeDelete('nm_session', "WHERE timeout < :now", "now={$now}");
 
         if (isset($_SESSION['sistema'])):
+           
             $sistema = unserialize($_SESSION['sistema']);
+            var_dump($sistema);
             $result['idUsuario'] = $sistema->getIdUsuario();
             $readUserOnline = new Read;
             $readUserOnline->ExeRead('nm_session', 'WHERE id_user = :id AND session = :session_user', "id={$sistema->getIdUsuario()}&session_user={$sistema->getSession()}");
@@ -92,6 +95,20 @@ class Validar {
         endif;
 
         return $result;
+    }
+
+    public static function Home($usuario) {
+        
+        if ($usuario):
+            if ($usuario->getTipo == 0):
+                $direcionar = 'pgAnunciante.php';
+            elseif ($usuario->getTipo == 1):
+                $direcionar = 'pgAdmin.php';
+            endif;
+                header("Location: {$direcionar}");
+        else:
+            header("Location: index.php");
+        endif;
     }
 
     public static function Image($Image, $ImageDesc, $ImageW = null, $ImageH = null) {

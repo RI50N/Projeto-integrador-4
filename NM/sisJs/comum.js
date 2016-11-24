@@ -9,7 +9,7 @@ function logout() {
 }
 
 function validarCNPJ(cnpj) {
-
+    console.log(cnpj);
     cnpj = cnpj.replace(/[^\d]+/g, '');
 
     if (cnpj == '')

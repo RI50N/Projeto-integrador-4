@@ -105,7 +105,6 @@
                 header("Location: {$direcionar}");
                 break;
             case 'alterarDadosAnunciante':
-                var_dump($form);
                 if (!empty($form['cep']) &&
                         !empty($form['cnpj']) &&
                         !empty($form['endereco']) &&
@@ -116,7 +115,7 @@
                         !empty($form['nomeResponsavel']) &&
                         !empty($form['estado']) &&
                         !empty($form['cidade']) &&
-                        !empty($form['senha']) &&
+                        
                         !empty($form['telefoneContato'])):
                     $anunciante->setId($form['idUsuario']);
                     $anunciante->populaDados($form);

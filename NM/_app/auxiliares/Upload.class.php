@@ -97,7 +97,9 @@ class Upload {
     private function setFileName() {
         $FileName = Validar::Nome($this->Name) . strrchr($this->File['name'], '.');
         if (file_exists(self::$BaseDir . $this->Send . $FileName)):
-            $FileName = Validar::Nome($this->Name) . '-' . time() . strrchr($this->File['name'], '.');
+            if (unlink(self::$BaseDir . $this->Send . $FileName)):
+            endif;
+            $FileName = Validar::Nome($this->Name).strrchr($this->File['name'], '.');
         endif;
         $this->Name = $FileName;
     }

@@ -14,7 +14,6 @@
 
             $upload = new Upload('../../uploads/');
             $imagem = $_FILES['imagem'];
-            //var_dump($imagem);
 
             $upload->Image($imagem,2);
             if (!$upload->getResult()):
@@ -24,7 +23,6 @@
             endif;
 
             echo "<hr>";
-            var_dump($upload);
 
         endif;
         ?>

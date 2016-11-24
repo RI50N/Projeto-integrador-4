@@ -26,6 +26,12 @@ $(document).ready(function () {
     });
 
     $("#CNPJ").focusout(function () {
-        alert('23123');
+        if(validarCNPJ($('#CNPJ').val())){
+            $('#CNPJ').removeClass('invalido');
+            $('#CNPJ').addClass('valido');
+        }else{
+            $('#CNPJ').removeClass('valido');
+            $('#CNPJ').addClass('invalido');
+        }
     })
 });

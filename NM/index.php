@@ -47,7 +47,6 @@
                 case 'login':
                     $sistema = new Sistema();
                     $sistema->efetuarLogin($form['login'], $form['senha']);
-                    var_dump($sistema->getSession());
                     if ($sistema->getSession()):
                         if ($sistema->getTipo() == 0):
                             $direcionar = 'pgAnunciante.php';
